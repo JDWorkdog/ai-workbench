@@ -134,7 +134,7 @@ If a user story is too large (can't be completed in one sprint), suggest splitti
 
 **Format**: Markdown (.md)
 
-**Save Location**: `output/drafts/`
+**Save Location**: If a project context is active (user is working in `projects/<name>/`), save to `projects/<name>/drafts/`. Otherwise, save to `output/drafts/`.
 
 **Filename Convention**:
 - Single feature: `YYYY-MM-DD_[feature-name]_user-stories.md`

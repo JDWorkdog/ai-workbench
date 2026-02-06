@@ -7,6 +7,16 @@ output/**
 !output/.gitkeep
 !output/**/.gitkeep
 
+# Projects folder contents (project-specific work)
+# Each subfolder is a user's project workspace
+projects/**
+!projects/.gitkeep
+!projects/**/.gitkeep
+
+# Temp files (staging area, safe to delete)
+temp-files/**
+!temp-files/.gitkeep
+
 # macOS
 .DS_Store
 

@@ -21,7 +21,9 @@ Then:
   - **Sources**: Properly cited with links (for web research) or references (for knowledge-based research)
   - **Key Insights**: Highlight most significant findings or emerging patterns
   - **Considerations**: Note limitations, areas of uncertainty, or topics needing further research
-- **Save output**: Store in `output/research/` with descriptive dated filename (e.g., `2025-01-15_ai-agent-frameworks_research.md`)
+- **Save output**: Store with descriptive dated filename (e.g., `2025-01-15_ai-agent-frameworks_research.md`)
+  - If a project context is active (user is working in `projects/<name>/`), save to `projects/<name>/research/`
+  - Otherwise, save to `output/research/`
 - **Provide summary**: Give me a brief overview of what you found and where you saved it
 
 **Research Quality Standards**:

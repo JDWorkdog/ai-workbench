@@ -19,14 +19,14 @@ Open in VS Code with Claude Code extension, then run any command:
 /brainstorm
 ```
 
-That's it. Your outputs go to the `output/` folder.
+That's it. Your outputs go to the `output/` folder (or your active project folder).
 
 ---
 
 ## Available Commands
 
-| Command | What It Does | Output |
-|---------|--------------|--------|
+| Command | What It Does | Default Output |
+|---------|--------------|----------------|
 | `/prd` | Create a Product Requirements Document | `output/drafts/` |
 | `/research` | Research any topic with sources | `output/research/` |
 | `/prompt` | Build prompts for any AI system | `output/prompts/` |
@@ -56,6 +56,15 @@ ai-craftsman/
 │   ├── journal/          # Daily journal
 │   └── analysis/         # Style guides
 │
+├── projects/             # Project workspaces (gitignored)
+│   └── my-app/           # Example: each subfolder is a project
+│       ├── drafts/       #   Same structure as output/
+│       ├── research/
+│       ├── tasks/
+│       └── ...
+│
+├── temp-files/           # Temporary staging area (gitignored)
+│
 ├── prompts/              # Reference prompts (Claude/ChatGPT/Gemini)
 ├── guides/               # Role-based guides
 ├── resources/            # Getting started docs
@@ -66,6 +75,25 @@ ai-craftsman/
 ---
 
 ## Features
+
+### Project Workspaces
+
+Organize your work into separate projects inside the `projects/` folder:
+
+1. Create a project folder: `projects/my-app/`
+2. Tell Claude you're working on it: *"Let's work on the my-app project"*
+3. All command output automatically saves to your project folder
+
+Each project gets the same folder structure as `output/` (drafts, research, tasks, etc.) - keeping everything for that project together in one place.
+
+When no project is active, commands save to the default `output/` folder as usual.
+
+### Temp Files
+
+The `temp-files/` folder is a staging area for temporary files:
+- Drop files here for Claude to process (PowerPoints, transcripts, data files)
+- Contents are gitignored and safe to delete anytime
+- Nothing here is permanent - clean up whenever you want
 
 ### Auto-Journaling
 Talk about your day - Claude logs it automatically. No need to run `/daily` explicitly.
@@ -78,7 +106,7 @@ Tasks are organized into 4 simple folders:
 - `ideas/` - Someday/maybe items
 
 ### Private by Default
-Everything in `output/` is gitignored. Your work stays on your machine.
+Everything in `output/`, `projects/`, and `temp-files/` is gitignored. Your work stays on your machine.
 
 ---
 

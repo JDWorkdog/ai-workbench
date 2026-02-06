@@ -7,7 +7,9 @@ Help me create a Product Requirements Document (PRD) optimized for developer com
 3. **Generate comprehensive PRD** using the 12-section structure below
 4. **DO NOT implement** - ask if refinement needed first
 5. **Offer to generate tasks** from the PRD if helpful
-6. **Save the PRD** to `output/drafts/` with filename format: `YYYY-MM-DD_[feature-name]_prd.md`
+6. **Save the PRD** with filename format: `YYYY-MM-DD_[feature-name]_prd.md`
+   - If a project context is active (user is working in `projects/<name>/`), save to `projects/<name>/drafts/`
+   - Otherwise, save to `output/drafts/`
 
 ## Clarifying Questions Strategy
 
@@ -110,4 +112,4 @@ Write for **junior developer comprehension**:
 2. **Ask if user wants to refine** any sections
 3. **Offer to generate tasks** from the PRD into the task management system
 4. **Confirm the PRD meets expectations** before proceeding
-5. **Save the PRD** to `output/drafts/YYYY-MM-DD_[feature-name]_prd.md`
+5. **Save the PRD** to the active output location (project folder or `output/drafts/`)
