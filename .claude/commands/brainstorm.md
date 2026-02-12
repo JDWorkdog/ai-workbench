@@ -16,5 +16,5 @@ Then:
 - Highlight the top 3 most promising ideas
 - Suggest next steps for the best ideas
 - Save the brainstorm session with filename `YYYY-MM-DD_[topic]_brainstorm.md`
-  - If a project context is active (user is working in `projects/<name>/`), save to `projects/<name>/brainstorms/`
-  - Otherwise, save to `output/brainstorms/`
+  - If a project context is active (user is working in `personal/projects/<name>/`), save to `personal/projects/<name>/brainstorms/`
+  - Otherwise, save to `personal/brainstorms/`

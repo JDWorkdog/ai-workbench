@@ -19,7 +19,7 @@ Open in VS Code with Claude Code extension, then run any command:
 /brainstorm
 ```
 
-That's it. Your outputs go to the `output/` folder (or your active project folder).
+That's it. Your outputs go to the `personal/` folder (or your active project folder).
 
 ---
 
@@ -27,15 +27,16 @@ That's it. Your outputs go to the `output/` folder (or your active project folde
 
 | Command | What It Does | Default Output |
 |---------|--------------|----------------|
-| `/prd` | Create a Product Requirements Document | `output/drafts/` |
-| `/research` | Research any topic with sources | `output/research/` |
-| `/prompt` | Build prompts for any AI system | `output/prompts/` |
-| `/extract-style` | Extract brand styles from PowerPoint | `output/analysis/` |
+| `/prd` | Create a Product Requirements Document | `personal/drafts/` |
+| `/research` | Research any topic with sources | `personal/research/` |
+| `/prompt` | Build prompts for any AI system | `personal/prompts/` |
+| `/extract-style` | Extract brand styles from PowerPoint | `personal/analysis/` |
 | `/email` | Draft professional emails | (screen) |
-| `/brainstorm` | Generate ideas with frameworks | `output/brainstorms/` |
-| `/add-task` | Quick task capture | `output/tasks/` |
-| `/user-story` | Write user stories with acceptance criteria | `output/drafts/` |
-| `/daily` | Daily journal and task logging | `output/journal/` |
+| `/brainstorm` | Generate ideas with frameworks | `personal/brainstorms/` |
+| `/add-task` | Quick task capture | `personal/tasks/` |
+| `/user-story` | Write user stories with acceptance criteria | `personal/drafts/` |
+| `/daily` | Daily journal and task logging | `personal/journal/` |
+| `/repo-analysis` | Analyze a repository | `personal/projects/<repo-name>/` |
 
 ---
 
@@ -47,25 +48,24 @@ ai-craftsman/
 │   ├── CLAUDE.md         # Workspace guide
 │   └── commands/         # Slash commands
 │
-├── output/               # Your work (gitignored)
-│   ├── research/         # Research reports
-│   ├── drafts/           # PRDs, user stories
-│   ├── prompts/          # Generated prompts
+├── personal/             # All your work (gitignored)
+│   ├── analysis/         # Style guides
 │   ├── brainstorms/      # Brainstorming sessions
-│   ├── tasks/            # Task lists
+│   ├── drafts/           # PRDs, user stories
 │   ├── journal/          # Daily journal
-│   └── analysis/         # Style guides
+│   ├── prompts/          # Generated prompts
+│   ├── research/         # Research reports
+│   ├── tasks/            # Task lists
+│   └── projects/         # Project workspaces
+│       └── my-app/       #   Each subfolder is a project
+│           ├── drafts/   #   Same structure as above
+│           ├── research/
+│           ├── tasks/
+│           └── ...
 │
-├── projects/             # Project workspaces (gitignored)
-│   └── my-app/           # Example: each subfolder is a project
-│       ├── drafts/       #   Same structure as output/
-│       ├── research/
-│       ├── tasks/
-│       └── ...
+├── temp-files/           # Input staging area (gitignored)
 │
-├── temp-files/           # Temporary staging area (gitignored)
-│
-├── prompts/              # Reference prompts (Claude/ChatGPT/Gemini)
+├── prompt-templates/     # Reference prompts (Claude/ChatGPT/Gemini)
 ├── guides/               # Role-based guides
 ├── resources/            # Getting started docs
 ├── claude-actions/       # For Claude.ai Projects
@@ -78,22 +78,22 @@ ai-craftsman/
 
 ### Project Workspaces
 
-Organize your work into separate projects inside the `projects/` folder:
+Organize your work into separate projects inside `personal/projects/`:
 
-1. Create a project folder: `projects/my-app/`
+1. Create a project folder: `personal/projects/my-app/`
 2. Tell Claude you're working on it: *"Let's work on the my-app project"*
 3. All command output automatically saves to your project folder
 
-Each project gets the same folder structure as `output/` (drafts, research, tasks, etc.) - keeping everything for that project together in one place.
+Each project gets the same folder structure as `personal/` (drafts, research, tasks, etc.) - keeping everything for that project together in one place.
 
-When no project is active, commands save to the default `output/` folder as usual.
+When no project is active, commands save to the default `personal/` subfolders.
 
 ### Temp Files
 
-The `temp-files/` folder is a staging area for temporary files:
+The `temp-files/` folder is an **input staging area**:
 - Drop files here for Claude to process (PowerPoints, transcripts, data files)
 - Contents are gitignored and safe to delete anytime
-- Nothing here is permanent - clean up whenever you want
+- Output is never written here - it always goes to `personal/` or your active project folder
 
 ### Auto-Journaling
 Talk about your day - Claude logs it automatically. No need to run `/daily` explicitly.
@@ -106,7 +106,7 @@ Tasks are organized into 4 simple folders:
 - `ideas/` - Someday/maybe items
 
 ### Private by Default
-Everything in `output/`, `projects/`, and `temp-files/` is gitignored. Your work stays on your machine.
+Everything in `personal/` and `temp-files/` is gitignored. Your work stays on your machine.
 
 ---
 
@@ -123,7 +123,7 @@ Everything in `output/`, `projects/`, and `temp-files/` is gitignored. Your work
 
 ## What's Inside
 
-### [Prompts](prompts/)
+### [Prompt Templates](prompt-templates/)
 Universal prompts that work across multiple LLMs. Each includes versions for:
 - **Claude** - Leveraging Claude's reasoning
 - **ChatGPT** - Formatted for OpenAI
@@ -137,6 +137,25 @@ Ready-to-use actions for Claude.ai Projects. No VS Code required - copy and past
 - [Videos](resources/videos.md) - Tutorials
 - [Articles](resources/articles.md) - Deep dives
 - [Tools](resources/tools.md) - Useful utilities
+
+---
+
+## Upgrading from v1
+
+If you were using the previous folder structure (`output/` and `projects/`), run these commands after pulling:
+
+```bash
+git pull
+
+# Move your existing files
+mv output/* personal/
+mv projects/* personal/projects/
+
+# Clean up old folders
+rmdir output projects
+```
+
+If you haven't generated any files yet, `git pull` is all you need.
 
 ---
 

@@ -11,8 +11,8 @@ Ask me:
 Then:
 - Determine the folder: work, personal, ideas, or _inbox (default)
 - Append to the tasks folder:
-  - If a project context is active (user is working in `projects/<name>/`), use `projects/<name>/tasks/[folder]/tasks.md`
-  - Otherwise, use `output/tasks/[folder]/tasks.md`
+  - If a project context is active (user is working in `personal/projects/<name>/`), use `personal/projects/<name>/tasks/[folder]/tasks.md`
+  - Otherwise, use `personal/tasks/[folder]/tasks.md`
 - Format:
   ```
   ## [TASK-###] Task Name

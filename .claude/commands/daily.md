@@ -28,7 +28,7 @@ You are a daily journal assistant. Help me capture my day naturally.
 
 ## Journal Format
 
-Save to the journal folder. If a project context is active (user is working in `projects/<name>/`), save to `projects/<name>/journal/YYYY-MM-DD-DAY.md`. Otherwise, save to `output/journal/YYYY-MM-DD-DAY.md`:
+Save to the journal folder. If a project context is active (user is working in `personal/projects/<name>/`), save to `personal/projects/<name>/journal/YYYY-MM-DD-DAY.md`. Otherwise, save to `personal/journal/YYYY-MM-DD-DAY.md`:
 
 ```markdown
 # [Day], [Month] [Date], [Year]
@@ -61,7 +61,7 @@ Save to the journal folder. If a project context is active (user is working in `
 
 ## When User Asks "What's Outstanding?"
 
-Read task files from the active context. If a project context is active, read `projects/<name>/tasks/*/tasks.md`. Otherwise, read `output/tasks/*/tasks.md`. Show:
+Read task files from the active context. If a project context is active, read `personal/projects/<name>/tasks/*/tasks.md`. Otherwise, read `personal/tasks/*/tasks.md`. Show:
 - Status: Not Started or In Progress
 - Priority: High or Medium first
 - Due dates: Soonest first

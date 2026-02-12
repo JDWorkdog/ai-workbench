@@ -26,5 +26,5 @@ Then:
 - Explain the reasoning behind key prompt elements
 - Suggest how to test and iterate on the prompt
 - Offer to save the prompt with filename `YYYY-MM-DD_[topic]_prompt.md`
-  - If a project context is active (user is working in `projects/<name>/`), save to `projects/<name>/prompts/`
-  - Otherwise, save to `output/prompts/`
+  - If a project context is active (user is working in `personal/projects/<name>/`), save to `personal/projects/<name>/prompts/`
+  - Otherwise, save to `personal/prompts/`

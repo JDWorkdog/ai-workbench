@@ -70,5 +70,5 @@ Return valid JSON:
 - Ambiguous data -> include in notes field with reasoning
 
 Save the extracted style guide with a descriptive filename like `[company]-style-guide.json`.
-- If a project context is active (user is working in `projects/<name>/`), save to `projects/<name>/analysis/`
-- Otherwise, save to `output/analysis/`
+- If a project context is active (user is working in `personal/projects/<name>/`), save to `personal/projects/<name>/analysis/`
+- Otherwise, save to `personal/analysis/`

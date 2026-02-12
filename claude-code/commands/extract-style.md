@@ -69,4 +69,6 @@ Return valid JSON:
 - Logo absent → omit logo object entirely
 - Ambiguous data → include in notes field with reasoning
 
-Save the extracted style guide to `/projects/analysis/` with a descriptive filename like `[company]-style-guide.json`.
+Save the extracted style guide with a descriptive filename like `[company]-style-guide.json`.
+- If a project context is active (user is working in `personal/projects/<name>/`), save to `personal/projects/<name>/analysis/`
+- Otherwise, save to `personal/analysis/`

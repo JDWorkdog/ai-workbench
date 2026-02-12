@@ -1,19 +1,13 @@
 # User settings (keep private)
 .claude/settings.local.json
 
-# Output folder contents (user's work products)
+# Personal folder contents (all user-generated work)
 # Structure is preserved via .gitkeep files
-output/**
-!output/.gitkeep
-!output/**/.gitkeep
+personal/**
+!personal/.gitkeep
+!personal/**/.gitkeep
 
-# Projects folder contents (project-specific work)
-# Each subfolder is a user's project workspace
-projects/**
-!projects/.gitkeep
-!projects/**/.gitkeep
-
-# Temp files (staging area, safe to delete)
+# Temp files (input staging area, safe to delete)
 temp-files/**
 !temp-files/.gitkeep
 

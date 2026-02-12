@@ -125,5 +125,6 @@ Structure:
 ```
 
 ### 5. Output
-- Save both documents to the current working directory
+- Create a project folder named after the repository: `personal/projects/<repo-name>/`
+- Save both documents to that project folder
 - Provide a brief summary of findings
