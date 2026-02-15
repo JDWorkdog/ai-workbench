@@ -1,4 +1,4 @@
-# AI Craftsman for Marketers
+# AI Workbench for Marketers
 
 Your guide to AI-powered marketing workflows.
 

@@ -1,4 +1,4 @@
-# Contributing to AI Craftsman
+# Contributing to AI Workbench
 
 Thanks for your interest in contributing! Here's how you can help.
 

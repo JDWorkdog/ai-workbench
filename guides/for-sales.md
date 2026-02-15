@@ -1,4 +1,4 @@
-# AI Craftsman for Sales
+# AI Workbench for Sales
 
 Your guide to AI-powered sales workflows.
 

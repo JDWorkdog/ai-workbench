@@ -1,4 +1,4 @@
-# AI Craftsman for Engineers
+# AI Workbench for Engineers
 
 Your guide to AI-powered engineering workflows.
 

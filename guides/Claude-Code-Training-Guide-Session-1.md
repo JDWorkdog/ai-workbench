@@ -36,10 +36,10 @@ By the end of this guide, you will be able to:
 
 ### Step 1: Clone the Starter Kit
 
-Clone the AI Craftsman starter repo, which comes pre-loaded with useful commands, skills, and folder structure:
+Clone the AI Workbench starter repo, which comes pre-loaded with useful commands, skills, and folder structure:
 
 ```
-git clone https://github.com/JDWorkdog/ai-craftsman.git
+git clone https://github.com/JDWorkdog/ai-workbench.git
 ```
 
 Rename the folder to something personal -- this isn't just for training. This is a workspace you may use long-term for daily productivity tasks like research, document creation, brainstorming, and prompt building. Think of it as your "AI Desktop."
@@ -422,4 +422,4 @@ Open a new Claude Code tab, switch to Plan Mode, and ask Claude to research curr
 
 ---
 
-*This guide was generated from a live training session. The [AI Craftsman starter kit](https://github.com/JDWorkdog/ai-craftsman) referenced throughout is freely available.*
+*This guide was generated from a live training session. The [AI Workbench starter kit](https://github.com/JDWorkdog/ai-workbench) referenced throughout is freely available.*

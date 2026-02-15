@@ -20,4 +20,4 @@ Curated video tutorials and demonstrations for AI productivity.
 
 ---
 
-Have a video recommendation? [Open an issue](https://github.com/JDWorkdog/ai-craftsman/issues) or submit a PR!
+Have a video recommendation? [Open an issue](https://github.com/JDWorkdog/ai-workbench/issues) or submit a PR!

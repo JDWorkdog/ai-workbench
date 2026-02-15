@@ -1,4 +1,4 @@
-# AI Craftsman
+# AI Workbench
 
 Your ready-to-use Claude Code workspace. Clone it, open it, start creating.
 
@@ -7,8 +7,8 @@ Your ready-to-use Claude Code workspace. Clone it, open it, start creating.
 ## Quick Start
 
 ```bash
-git clone https://github.com/JDWorkdog/ai-craftsman.git
-cd ai-craftsman
+git clone https://github.com/JDWorkdog/ai-workbench.git
+cd ai-workbench
 ```
 
 Open in VS Code with Claude Code extension, then run any command:
@@ -38,12 +38,25 @@ That's it. Your outputs go to the `personal/` folder (or your active project fol
 | `/daily` | Daily journal and task logging | `personal/journal/` |
 | `/repo-analysis` | Analyze a repository | `personal/projects/<repo-name>/` |
 
+### Developer Commands
+
+For codebase analysis. Run `/repo-analysis` first, then use these individually or `/repo-deep-dive` to run all 4 in parallel.
+
+| Command | What It Does | Default Output |
+|---------|--------------|----------------|
+| `/repo-features` | Feature-by-feature deep dive (business rules, data model, state lifecycles) | `personal/projects/<repo-name>/` |
+| `/repo-code-review` | Comprehensive code quality assessment with A-F grades | `personal/projects/<repo-name>/` |
+| `/repo-tech-detailed` | Implementation-depth technical reference (schemas, APIs, auth flows) | `personal/projects/<repo-name>/` |
+| `/repo-arch-review` | Evaluative architecture fitness assessment with recommendations | `personal/projects/<repo-name>/` |
+| `/repo-deep-dive` | Run all deep-dive analyses in parallel via sub-agents | `personal/projects/<repo-name>/` |
+| `/repo-system-map` | Cross-repo system map showing how repos form one platform | `personal/projects/` |
+
 ---
 
 ## Project Structure
 
 ```
-ai-craftsman/
+ai-workbench/
 ├── .claude/              # Claude Code configuration
 │   ├── CLAUDE.md         # Workspace guide
 │   └── commands/         # Slash commands

@@ -1,4 +1,4 @@
-# AI Craftsman Workspace
+# AI Workbench Workspace
 
 A productivity workspace for Claude Code. Use slash commands to create PRDs, research topics, draft emails, brainstorm, and more.
 
@@ -16,6 +16,12 @@ A productivity workspace for Claude Code. Use slash commands to create PRDs, res
 | `/user-story` | Write user stories | `personal/drafts/` |
 | `/daily` | Daily journal | `personal/journal/` |
 | `/repo-analysis` | Analyze a repository | `personal/projects/<repo-name>/` |
+| `/repo-features` | Feature-by-feature deep dive (business rules, data model, state lifecycles) | `personal/projects/<repo-name>/` |
+| `/repo-code-review` | Comprehensive code quality assessment with A-F grades | `personal/projects/<repo-name>/` |
+| `/repo-tech-detailed` | Implementation-depth technical reference (schemas, APIs, auth flows) | `personal/projects/<repo-name>/` |
+| `/repo-arch-review` | Evaluative architecture fitness assessment with recommendations | `personal/projects/<repo-name>/` |
+| `/repo-deep-dive` | Run all deep-dive analyses in parallel via sub-agents | `personal/projects/<repo-name>/` |
+| `/repo-system-map` | Cross-repo system map showing how repos form one platform | `personal/projects/` |
 
 ## Personal Folder
 
@@ -72,6 +78,8 @@ personal/projects/my-app/
 ### Repo Analysis Projects
 
 When `/repo-analysis` is run, create a project folder named after the repository (e.g., `personal/projects/<repo-name>/`) and save the output there.
+
+The deep-dive commands (`/repo-features`, `/repo-code-review`, `/repo-tech-detailed`, `/repo-arch-review`) build on existing analysis docs. Run `/repo-analysis` first, then either run deep-dive commands individually or use `/repo-deep-dive` to run all 4 in parallel via sub-agents. Each command saves its output alongside the original docs in the same project folder. The `/repo-system-map` command maps across multiple repos and saves to `personal/projects/system-map.md`.
 
 ## Temp Files Folder
 

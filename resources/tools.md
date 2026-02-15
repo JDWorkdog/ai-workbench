@@ -28,4 +28,4 @@ Curated list of useful AI tools and utilities.
 
 ---
 
-Have a tool recommendation? [Open an issue](https://github.com/JDWorkdog/ai-craftsman/issues) or submit a PR!
+Have a tool recommendation? [Open an issue](https://github.com/JDWorkdog/ai-workbench/issues) or submit a PR!

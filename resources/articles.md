@@ -20,4 +20,4 @@ Curated articles, blog posts, and written guides for AI productivity.
 
 ---
 
-Have an article recommendation? [Open an issue](https://github.com/JDWorkdog/ai-craftsman/issues) or submit a PR!
+Have an article recommendation? [Open an issue](https://github.com/JDWorkdog/ai-workbench/issues) or submit a PR!

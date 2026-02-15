@@ -1,4 +1,4 @@
-# AI Craftsman for Product Managers
+# AI Workbench for Product Managers
 
 Your guide to AI-powered product management workflows.
 
