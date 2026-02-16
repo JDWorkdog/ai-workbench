@@ -36,6 +36,9 @@ That's it. Your outputs go to the `personal/` folder (or your active project fol
 | `/add-task` | Quick task capture | `personal/tasks/` |
 | `/user-story` | Write user stories with acceptance criteria | `personal/drafts/` |
 | `/daily` | Daily journal and task logging | `personal/journal/` |
+| `/meeting-summary` | Summarize meeting transcripts into action items | (screen) |
+| `/code-review` | Deep line-by-line code review with numbered findings | `personal/projects/<name>/` |
+| `/handover` | Generate session handover doc for continuity | `docs/HANDOVER.md` |
 | `/repo-analysis` | Analyze a repository | `personal/projects/<repo-name>/` |
 
 ### Developer Commands

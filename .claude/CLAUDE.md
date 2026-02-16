@@ -16,6 +16,8 @@ A productivity workspace for Claude Code. Use slash commands to create PRDs, res
 | `/user-story` | Write user stories | `personal/drafts/` |
 | `/daily` | Daily journal | `personal/journal/` |
 | `/code-review` | Deep line-by-line code review with numbered findings and code snippets | `personal/projects/<name>/` |
+| `/meeting-summary` | Summarize meeting transcripts into action items | (screen) |
+| `/handover` | Generate session handover doc for continuity | `docs/HANDOVER.md` |
 | `/repo-analysis` | Analyze a repository | `personal/projects/<repo-name>/` |
 | `/repo-features` | Feature-by-feature deep dive (business rules, data model, state lifecycles) | `personal/projects/<repo-name>/` |
 | `/repo-code-review` | Comprehensive code quality assessment with A-F grades | `personal/projects/<repo-name>/` |
