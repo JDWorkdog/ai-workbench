@@ -18,7 +18,19 @@ Before generating the analysis, complete this planning workflow:
    - Output location — where the file will be saved
 5. **Wait for approval.** Only after the user approves, execute the full analysis below.
 
-### 2. Load Existing Context
+### 2. Determine Analysis Goal
+
+**IMPORTANT: Format questions clearly - each question MUST be on its own numbered line. DO NOT combine questions into a paragraph.**
+
+Ask the user:
+
+1. What lens should I use for this review?
+   A. Onboarding & knowledge transfer (emphasize "why the architecture is this way" and tradeoff explanations)
+   B. Tech debt & modernization planning (emphasize what to change, migration paths, and sequencing)
+   C. Executive/stakeholder visibility (emphasize risk scorecards, cost implications, and decision summaries)
+   D. All of the above (comprehensive)
+
+### 3. Load Existing Context
 
 - Determine the repo name from the input (extract from path or use directly)
 - Look for ALL existing analysis docs in `personal/projects/<repo-name>/`:
@@ -30,7 +42,7 @@ Before generating the analysis, complete this planning workflow:
 - If no functional or tech-stack spec exists, inform the user to run `/repo-analysis` first and stop
 - Use all available docs as context to avoid re-exploring already-documented areas
 
-### 3. Architecture Evaluation Phase
+### 4. Architecture Evaluation Phase
 
 Access the actual repository codebase. For each assessment dimension:
 - Identify the architectural approach used
@@ -41,7 +53,7 @@ Access the actual repository codebase. For each assessment dimension:
 
 This document is EVALUATIVE, not descriptive. It renders judgment. Where the tech-stack spec says "we use X," this document asks "is X the right choice? Is it implemented well? What are the risks?"
 
-### 4. Generate Document
+### 5. Generate Document
 
 Save to: `personal/projects/<repo-name>/{repo-name}-arch-review.md`
 
@@ -388,6 +400,6 @@ Scores (1-5):
 ```
 ```
 
-### 5. Output
+### 6. Output
 - Save the document to `personal/projects/<repo-name>/{repo-name}-arch-review.md`
 - Provide a summary of: overall fitness grade, top 3 risks, top 3 quick wins, and single most important recommendation

@@ -18,7 +18,19 @@ Before generating the analysis, complete this planning workflow:
    - Output location — where the file will be saved
 5. **Wait for approval.** Only after the user approves, execute the full analysis below.
 
-### 2. Load Existing Context
+### 2. Determine Analysis Goal
+
+**IMPORTANT: Format questions clearly - each question MUST be on its own numbered line. DO NOT combine questions into a paragraph.**
+
+Ask the user:
+
+1. What lens should I use for this analysis?
+   A. Onboarding & knowledge transfer (emphasize setup guides, configuration walkthrough, "how to do X" recipes)
+   B. Tech debt & modernization planning (emphasize schema issues, API contract problems, infrastructure gaps)
+   C. Executive/stakeholder visibility (emphasize architecture diagrams, deployment topology, risk areas)
+   D. All of the above (comprehensive)
+
+### 3. Load Existing Context
 
 - Determine the repo name from the input (extract from path or use directly)
 - Look for `{repo-name}-tech-stack.md` in `personal/projects/<repo-name>/`
@@ -27,7 +39,7 @@ Before generating the analysis, complete this planning workflow:
 - Use the tech-stack spec's sections as the starting framework
 - If other deep-dive docs exist (`-features-detailed.md`, `-code-review.md`, etc.), load them for additional context
 
-### 3. Deep Technical Exploration
+### 4. Deep Technical Exploration
 
 Access the actual repository codebase. Go beyond the technology inventory:
 - **Database** — Read SQL scripts, EF/ORM model definitions, migration files to document actual schema, relationships, and indexes
@@ -39,7 +51,7 @@ Access the actual repository codebase. Go beyond the technology inventory:
 - **Build/Deploy** — Read CI/CD configs, Dockerfiles, deployment scripts, environment configuration files
 - **Local dev** — Read README, setup scripts, required tooling, environment variables, seed data
 
-### 4. Generate Document
+### 5. Generate Document
 
 Save to: `personal/projects/<repo-name>/{repo-name}-tech-detailed.md`
 
@@ -388,6 +400,6 @@ Cloud Provider / Infrastructure
 | {Config key} | {Auth/DB/Cache/Integration/Feature} | {What it controls} | {Example (redact secrets)} |
 ```
 
-### 5. Output
+### 6. Output
 - Save the document to `personal/projects/<repo-name>/{repo-name}-tech-detailed.md`
 - Provide a summary of: key technical findings, any areas that couldn't be fully documented (e.g., secrets, external configs), and recommended follow-up

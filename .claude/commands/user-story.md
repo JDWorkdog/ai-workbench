@@ -16,12 +16,53 @@ Before generating any output, complete this planning workflow:
 
 ## Process
 
-1. **Complete the Planning Phase above** (plan mode → questions → plan summary → approval)
+1. **Understand the context** - Ask clarifying questions about the feature and users
 2. **Identify users and scenarios** - Determine who will use this and what they need
 3. **Generate user stories** - Create properly formatted stories following best practices
 4. **Define acceptance criteria** - Specify how to validate story completion
 5. **Validate against INVEST criteria** - Ensure stories are Independent, Negotiable, Valuable, Estimable, Small, and Testable
 6. **Save and refine** - Store in appropriate location and offer improvements
+
+## Clarifying Questions
+
+**CRITICAL: Follow this exact formatting structure for questions:**
+
+1. Each question MUST be numbered and on its own line
+2. Each answer option (A, B, C, D) MUST be on its own line, indented with spaces
+3. There MUST be a blank line between questions
+4. DO NOT combine questions into a paragraph format
+5. DO NOT remove line breaks between questions or options
+
+Ask me these questions to understand what you need:
+
+1. **What feature or epic are these user stories for?**
+   - Provide the feature name and brief context
+
+2. **Who are the primary users?**
+   - A) End users/customers
+   - B) Internal users (employees, admins)
+   - C) Developers/technical users
+   - D) Multiple user types (specify which)
+
+3. **What's the scope?**
+   - A) Single user story for a specific scenario
+   - B) Multiple stories for a feature
+   - C) Complete epic breakdown with multiple stories
+   - D) Story refinement/splitting of an existing large story
+
+4. **What level of detail do you need?**
+   - A) Basic user stories only (As a... I want... So that...)
+   - B) Stories with acceptance criteria
+   - C) Stories with acceptance criteria and edge cases
+   - D) Full stories with acceptance criteria, edge cases, and story point estimates
+
+5. **Any specific constraints or requirements?** (optional)
+   - Technical constraints
+   - Business rules
+   - Dependencies on other features
+   - Compliance or security requirements
+
+You can answer quickly like: "1: User authentication, 2D, 3B, 4B, 5: Must comply with SOC2"
 
 ## User Story Structure
 

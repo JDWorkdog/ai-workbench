@@ -18,7 +18,19 @@ Before generating the analysis, complete this planning workflow:
    - Output location — where the file will be saved
 5. **Wait for approval.** Only after the user approves, execute the full analysis below.
 
-### 2. Load Existing Context
+### 2. Determine Analysis Goal
+
+**IMPORTANT: Format questions clearly - each question MUST be on its own numbered line. DO NOT combine questions into a paragraph.**
+
+Ask the user:
+
+1. What lens should I use for this map?
+   A. Onboarding & knowledge transfer (emphasize "how the system fits together" explanations for new team members)
+   B. Tech debt & modernization planning (emphasize cross-repo dependencies that complicate changes)
+   C. Executive/stakeholder visibility (emphasize system-level risk, redundancy, and investment areas)
+   D. All of the above (comprehensive)
+
+### 3. Load Existing Context
 
 - Scan `personal/projects/` for all analyzed repositories
 - For each repo found, load available analysis docs:
@@ -32,7 +44,7 @@ Before generating the analysis, complete this planning workflow:
 - If fewer than 2 repos have been analyzed, inform the user to analyze more repos first and stop
 - List the repos found and confirm with the user before proceeding
 
-### 3. Cross-Repo Analysis Phase
+### 4. Cross-Repo Analysis Phase
 
 Synthesize across all loaded repo analyses to identify:
 - **Shared technologies and version discrepancies** across repos
@@ -45,7 +57,7 @@ Synthesize across all loaded repo analyses to identify:
 
 If repository source code is accessible, explore the actual codebases to validate and deepen the analysis beyond what the docs capture.
 
-### 4. Generate Document
+### 5. Generate Document
 
 Save to: `personal/projects/system-map.md` (top-level, not inside any single repo folder)
 
@@ -311,6 +323,6 @@ On-Premise (if applicable)
 | {Cross-cutting improvement} | {Which repos affected} | {Time estimate} | {What it enables} | {Critical/High/Medium} |
 ```
 
-### 5. Output
+### 6. Output
 - Save the document to `personal/projects/system-map.md`
 - Provide a summary of: number of repos mapped, top 3 system-level risks, and most important cross-repo initiative

@@ -18,7 +18,19 @@ Before generating the analysis, complete this planning workflow:
    - Output location — where the file will be saved
 5. **Wait for approval.** Only after the user approves, execute the full analysis below.
 
-### 2. Load Existing Context
+### 2. Determine Analysis Goal
+
+**IMPORTANT: Format questions clearly - each question MUST be on its own numbered line. DO NOT combine questions into a paragraph.**
+
+Ask the user:
+
+1. What lens should I use for this analysis?
+   A. Onboarding & knowledge transfer (emphasize "how things work" explanations, gotchas, tribal knowledge)
+   B. Tech debt & modernization planning (emphasize pain points, workarounds, refactoring opportunities per feature)
+   C. Executive/stakeholder visibility (emphasize business impact, risk, and feature maturity)
+   D. All of the above (comprehensive)
+
+### 3. Load Existing Context
 
 - Determine the repo name from the input (extract from path or use directly)
 - Look for `{repo-name}-functional.md` in `personal/projects/<repo-name>/`
@@ -27,7 +39,7 @@ Before generating the analysis, complete this planning workflow:
 - Use the functional spec's feature list as the table of contents for this document
 - If other deep-dive docs exist (`-code-review.md`, `-tech-detailed.md`, etc.), load them for additional context
 
-### 3. Deep Exploration Phase
+### 4. Deep Exploration Phase
 
 Access the actual repository codebase. For EACH feature listed in the functional spec, explore to discover:
 - **Business rules and validation logic** — Read validators, manager classes, controller actions, service methods
@@ -38,7 +50,7 @@ Access the actual repository codebase. For EACH feature listed in the functional
 - **Error scenarios** — Read exception handling, validation failures, edge case guards, error responses
 - **Feature dependencies** — Read cross-references to other features, shared services, shared data
 
-### 4. Generate Document
+### 5. Generate Document
 
 Save to: `personal/projects/<repo-name>/{repo-name}-features-detailed.md`
 
@@ -200,6 +212,6 @@ Legend: IN = depends on (consumes), OUT = depended upon (produces)
 Maturity scale: Emerging (< 1 year, active development) | Growing (1-2 years, stabilizing) | Mature (2+ years, stable) | Legacy (needs modernization)
 ```
 
-### 5. Output
+### 6. Output
 - Save the document to `personal/projects/<repo-name>/{repo-name}-features-detailed.md`
 - Provide a summary of: number of features analyzed, top findings, any features that were difficult to analyze (e.g., sparse code, heavy abstraction)

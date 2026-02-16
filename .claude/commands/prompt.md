@@ -12,9 +12,22 @@ Before generating any output, complete this planning workflow:
    - Key decisions — assumptions or scoping choices you made
 4. **Wait for approval.** Only after the user approves, execute the full process below.
 
-## Execution
+## Process
 
-After plan approval:
+**IMPORTANT: Format questions clearly - each question MUST be on its own numbered line. DO NOT combine questions into a paragraph.**
+
+Ask me:
+1. What AI system is this for? (Claude, ChatGPT, Midjourney, etc.)
+2. Will this be through the browser or an API?
+3. What task should the prompt accomplish?
+4. Who is the intended audience? (e.g., executives, customers, technical team, general public)
+5. What inputs will be included, if any?
+6. What output format do you need?
+7. Will you include example outputs?
+8. Any specific constraints or requirements?
+9. Should I create variations to test?
+
+Then:
 - Analyze the requirements
 - If using an API, also include a System Prompt
 - Build a well-structured prompt using best practices:

@@ -12,9 +12,19 @@ Before generating any output, complete this planning workflow:
    - Key decisions — assumptions or scoping choices you made
 4. **Wait for approval.** Only after the user approves, execute the full process below.
 
-## Execution
+## Process
 
-After plan approval:
+**IMPORTANT: Format questions clearly - each question MUST be on its own numbered line. DO NOT combine questions into a paragraph.**
+
+Ask me:
+1. What topic should I research? (Be as specific or broad as you'd like)
+2. What depth level? (quick = 5-10 min, standard = 15-20 min, deep = 30+ min)
+3. What output format? (default: executive summary + detailed report, or specify: bullets only, comparative analysis, Q&A format, etc.)
+4. Is this time-sensitive? (current events, recent data, or general/historical topic)
+5. Any specific angles or questions you want answered?
+6. Any sources to prioritize or exclude?
+
+Then:
 - **Determine research approach**: Use web search for current events, recent developments, emerging topics, or anything post-2024. Use knowledge base for historical, conceptual, or established topics.
 - **Gather information**: Search across multiple high-quality sources (academic papers, industry reports, authoritative news, expert blogs, official documentation)
 - **Verify and cross-reference**: Check facts across multiple sources, note areas of consensus vs. debate
