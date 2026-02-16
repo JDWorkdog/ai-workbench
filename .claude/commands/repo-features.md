@@ -4,17 +4,19 @@ Generate a comprehensive feature-by-feature deep dive for a previously analyzed 
 
 ## Instructions
 
-### 1. Determine Analysis Goal
+### 1. Planning Phase
 
-**IMPORTANT: Format questions clearly - each question MUST be on its own numbered line. DO NOT combine questions into a paragraph.**
+Before generating the analysis, complete this planning workflow:
 
-Ask the user:
-
-1. What lens should I use for this analysis?
-   A. Onboarding & knowledge transfer (emphasize "how things work" explanations, gotchas, tribal knowledge)
-   B. Tech debt & modernization planning (emphasize pain points, workarounds, refactoring opportunities per feature)
-   C. Executive/stakeholder visibility (emphasize business impact, risk, and feature maturity)
-   D. All of the above (comprehensive)
+1. **Enter plan mode** using `EnterPlanMode`. You are now read-only — do not write any files.
+2. **Load existing context.** Read prerequisite docs (functional overview, tech-stack reference, prior analyses) to understand what's already documented.
+3. **Understand the request.** Use `AskUserQuestion` to determine the analysis lens and focus areas. Do not guess.
+4. **Propose a plan.** Use `ExitPlanMode` to present a markdown plan summary including:
+   - Analysis scope — what will be analyzed
+   - Lens — the selected perspective (onboarding / tech debt / executive / all)
+   - Proposed structure — outline of the document
+   - Output location — where the file will be saved
+5. **Wait for approval.** Only after the user approves, execute the full analysis below.
 
 ### 2. Load Existing Context
 

@@ -15,6 +15,7 @@ A productivity workspace for Claude Code. Use slash commands to create PRDs, res
 | `/add-task` | Quick task capture | `personal/tasks/` |
 | `/user-story` | Write user stories | `personal/drafts/` |
 | `/daily` | Daily journal | `personal/journal/` |
+| `/code-review` | Deep line-by-line code review with numbered findings and code snippets | `personal/projects/<name>/` |
 | `/repo-analysis` | Analyze a repository | `personal/projects/<repo-name>/` |
 | `/repo-features` | Feature-by-feature deep dive (business rules, data model, state lifecycles) | `personal/projects/<repo-name>/` |
 | `/repo-code-review` | Comprehensive code quality assessment with A-F grades | `personal/projects/<repo-name>/` |
@@ -111,6 +112,14 @@ When you talk about your day - accomplishments, tasks, plans - Claude automatica
 ## Permissions
 
 Claude can create and update journal, task, and temp files without asking. Claude can also create project subfolders as needed. This keeps the flow smooth for daily capture.
+
+## Autonomy Override
+
+This is a productivity workspace (research, writing, docs). Operate autonomously without pausing to confirm unless noted below.
+
+- **Environment mismatches**: When reading or analyzing external codebases (e.g., `/repo-*` commands), proceed without asking about environment differences. Only pause and ask if you are about to **make changes** to an external environment (installs, config edits, deployments).
+- **Date/time scopes**: Do not confirm date ranges before running queries. Use the most reasonable scope and note your assumption.
+- **File paths**: Write output to the appropriate `personal/` subfolder (or active project folder) without asking. Follow the file naming and project-scoped output rules above.
 
 ## Reference Materials
 

@@ -2,6 +2,20 @@ Analyze a repository and generate comprehensive documentation.
 
 **Input:** $ARGUMENTS (repository path or GitHub URL)
 
+## Planning Phase
+
+Before generating the analysis, complete this planning workflow:
+
+1. **Enter plan mode** using `EnterPlanMode`. You are now read-only — do not write any files.
+2. **Load existing context.** Read prerequisite docs (functional overview, tech-stack reference, prior analyses) to understand what's already documented.
+3. **Understand the request.** Use `AskUserQuestion` to determine the analysis lens and focus areas. Do not guess.
+4. **Propose a plan.** Use `ExitPlanMode` to present a markdown plan summary including:
+   - Analysis scope — what will be analyzed
+   - Lens — the selected perspective (onboarding / tech debt / executive / all)
+   - Proposed structure — outline of the document
+   - Output location — where the file will be saved
+5. **Wait for approval.** Only after the user approves, execute the full analysis below.
+
 ## Instructions
 
 ### 1. Determine Input Type

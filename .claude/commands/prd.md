@@ -1,59 +1,26 @@
 Help me create a Product Requirements Document (PRD) optimized for developer comprehension.
 
+## Planning Phase
+
+Before generating any output, complete this planning workflow:
+
+1. **Enter plan mode** using `EnterPlanMode`. You are now read-only — do not write any files.
+2. **Understand the request.** Analyze the user's input and identify gaps. Use `AskUserQuestion` for anything unclear — do not guess at scope, audience, goals, or constraints. Ask only what you cannot infer.
+3. **Propose a plan.** Use `ExitPlanMode` to present a markdown plan summary including:
+   - Understood requirements — what you heard and interpreted
+   - Proposed structure — outline of what you will produce
+   - Key decisions — assumptions or scoping choices you made
+4. **Wait for approval.** Only after the user approves, execute the full process below.
+
 ## Process
 
-1. **Analyze the initial request** to understand the feature/product context
-2. **Ask 3-5 strategic clarifying questions** (following the exact format specified below) - only what's not inferable from the initial description
-3. **Generate comprehensive PRD** using the 12-section structure below
-4. **DO NOT implement** - ask if refinement needed first
-5. **Offer to generate tasks** from the PRD if helpful
-6. **Save the PRD** with filename format: `YYYY-MM-DD_[feature-name]_prd.md`
+1. **Complete the Planning Phase above** (plan mode → questions → plan summary → approval)
+2. **Generate comprehensive PRD** using the 12-section structure below
+3. **DO NOT implement** - ask if refinement needed first
+4. **Offer to generate tasks** from the PRD if helpful
+5. **Save the PRD** with filename format: `YYYY-MM-DD_[feature-name]_prd.md`
    - If a project context is active (user is working in `personal/projects/<name>/`), save to `personal/projects/<name>/drafts/`
    - Otherwise, save to `personal/drafts/`
-
-## Clarifying Questions Strategy
-
-**Only ask when critical information is missing.** Focus on gaps that would significantly impact the PRD's clarity.
-
-Common areas needing clarification:
-- **Problem/Goal**: What problem does this feature solve?
-- **Core Functionality**: What key actions should users be able to perform?
-- **Scope/Boundaries**: What should this feature NOT do?
-- **Success Criteria**: How will we measure success?
-- **Target Users**: Who is this for?
-- **Timeline**: What's the urgency/priority?
-
-### Question Format
-
-**CRITICAL: Follow this exact formatting structure for questions:**
-
-1. Each question MUST be numbered and on its own line
-2. Each answer option (A, B, C, D) MUST be on its own line, indented with spaces
-3. There MUST be a blank line between questions
-4. DO NOT combine questions into a paragraph format
-
-**Required format:**
-```
-1. What is the primary goal of this feature?
-   A. Improve user onboarding experience
-   B. Increase user retention
-   C. Reduce support burden
-   D. Generate additional revenue
-
-2. Who is the target user for this feature?
-   A. New users only
-   B. Existing users only
-   C. All users
-   D. Admin users only
-
-3. What is the expected timeline?
-   A. Urgent (1-2 weeks)
-   B. High priority (3-4 weeks)
-   C. Standard (1-2 months)
-   D. Future consideration (3+ months)
-```
-
-This format allows rapid responses like: "1A, 2C, 3B"
 
 ## PRD Structure
 
