@@ -184,7 +184,7 @@ If there were draft posts, note: "Review the drafts above — copy and personali
 ## Notes
 
 - This command can be run manually anytime via `/ai-news-digest`
-- It also runs as part of the daily journal sync (step 2k in the sync prompt)
+- It's invoked automatically as a sub-step of `/morning-sync` — see Step 4 in `.claude/commands/morning-sync.md`
 - Do NOT fabricate updates — only report what you actually find in search results
 - Always include source links so findings can be verified
 - If WebSearch is unavailable, fall back to WebFetch on the changelog/release pages listed above

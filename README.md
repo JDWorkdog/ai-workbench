@@ -28,6 +28,7 @@ Output lands in the gitignored `personal/` folder — your work stays on your ma
 - **~20 slash commands** for PRDs, research, brainstorms, emails, code reviews, repo analysis, release-tracking, and more. See [`.claude/CLAUDE.md`](.claude/CLAUDE.md) for the full command list.
 - **Project workspaces** — tell Claude "I'm working on *my-app*" and every command's output routes to `personal/projects/my-app/` automatically.
 - **Auto-journaling** — talk about your day and today's journal entry gets updated without you running `/daily`.
+- **Scheduled journaling** — optional morning/evening sync that pulls from Gmail, Calendar, Granola, and Slack. See the [setup guide](resources/getting-started/setup-scheduled-journaling.md).
 - **Private by default** — everything in `personal/` and `temp-files/` is gitignored.
 - **Idiomatic Claude Code setup** — rules in `.claude/rules/`, commands in `.claude/commands/`, hooks in `.claude/settings.json`, optional skills/agents folders ready for expansion.
 

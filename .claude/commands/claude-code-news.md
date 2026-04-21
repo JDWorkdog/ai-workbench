@@ -77,7 +77,7 @@ If there were shareable posts, remind the user: "Copy any post above to share on
 
 ## Notes
 
-- This command can be run manually anytime, or it runs automatically as part of the morning journal sync
+- This command can be run manually anytime. It's invoked automatically as a sub-step of `/morning-sync` — see Step 4 in `.claude/commands/morning-sync.md`.
 - If WebSearch is unavailable, try WebFetch on the GitHub releases page as a fallback
 - Do NOT fabricate updates — only report what you actually find in search results
 - Always include source links so the user can verify
