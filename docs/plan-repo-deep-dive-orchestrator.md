@@ -89,4 +89,4 @@ Add one row to the command table:
 1. `ls .claude/commands/repo-deep-dive.md` — file exists
 2. Read file to confirm structure matches pattern (first-line description, Input, Instructions)
 3. Read `.claude/CLAUDE.md` to confirm command table includes new entry
-4. User tests by running `/repo-deep-dive DTCloud` in a new session
+4. User tests by running `/repo-deep-dive my-app` in a new session

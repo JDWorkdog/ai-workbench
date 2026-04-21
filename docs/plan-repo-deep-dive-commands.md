@@ -2,7 +2,7 @@
 
 ## Context
 
-The workspace has `/repo-analysis` which generates two documents per repo: a functional spec (`-functional.md`) and tech-stack spec (`-tech-stack.md`). These are excellent inventory-level docs across 7 analyzed repos (DTCloud, DTCloudAI, DTCloudApp, DTCloudMobile, DTCloudSource, DTPartnerApp, DTSI).
+The workspace has `/repo-analysis` which generates two documents per repo: a functional spec (`-functional.md`) and tech-stack spec (`-tech-stack.md`). These are excellent inventory-level docs across whatever set of repositories you've analyzed.
 
 The user wants to go deeper with additional document types. Each should be a reusable slash command that can run in its own session to avoid context window issues. Each command should ask about the analysis lens (onboarding, tech debt, exec visibility, or all) at runtime.
 
@@ -121,8 +121,8 @@ Plus cross-feature sections:
 
 Reference files (read-only):
 - `.claude/commands/repo-analysis.md` — Pattern to follow for command structure
-- `personal/projects/DTCloud/DTCloud-functional.md` — Reference for feature listing format
-- `personal/projects/DTCloud/DTCloud-tech-stack.md` — Reference for tech detail format
+- `personal/projects/my-app/my-app-functional.md` — Reference for feature listing format
+- `personal/projects/my-app/my-app-tech-stack.md` — Reference for tech detail format
 
 ## Verification
 
@@ -130,4 +130,4 @@ After creating all commands:
 1. Run `ls .claude/commands/repo-*.md` to confirm all 5 files exist
 2. Read each file to verify proper structure (first-line description, Input, Instructions, template)
 3. Read `.claude/CLAUDE.md` to confirm the command table includes all 5 new entries
-4. The user can then test by running `/repo-features DTCloud` (or similar) in a new session
+4. The user can then test by running `/repo-features my-app` (or similar) in a new session

@@ -44,7 +44,7 @@ If you use Claude Code in VSCode:
 | `/extract-style` | Extract brand colors, fonts, and styles from decks |
 | `/prompt` | Build prompts for any AI system |
 
-[How to install commands →](../claude-code/README.md)
+[How to install Claude Code →](../resources/getting-started/install-claude-code.md)
 
 ## Claude Actions
 

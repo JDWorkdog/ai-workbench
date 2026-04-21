@@ -36,17 +36,11 @@ Claude Code is built for engineers. These commands enhance your workflow:
 | `/research` | Research libraries, patterns, best practices |
 | `/prd` | Create technical specifications |
 
-[How to install commands →](../claude-code/README.md)
+[How to install Claude Code →](../resources/getting-started/install-claude-code.md)
 
 ## Claude Code Skills
 
-Skills are modular capability packages for Claude Code:
-
-| Skill | What It Does |
-|-------|--------------|
-| *Coming soon* | Code review, testing, documentation |
-
-[Browse skills →](../claude-code/skills/)
+Skills are modular capability packages for Claude Code. This workspace ships an empty [`.claude/skills/`](../.claude/skills/) folder — drop domain-specific skills there as you build them (e.g., specialized code review, API references, analysis workflows).
 
 ## Tips for Engineers
 
@@ -103,8 +97,8 @@ Skills are modular capability packages for Claude Code:
    - Takes ~5 minutes
 
 2. **Add Commands:**
-   - Copy commands from `claude-code/commands/`
-   - Place in your project's `.claude/commands/`
+   - Commands already live in `.claude/commands/` — nothing to copy
+   - Add your own by dropping new `.md` files in the same folder
 
 3. **Try It:**
    - Open your project in VSCode

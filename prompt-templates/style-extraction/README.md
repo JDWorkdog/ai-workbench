@@ -60,7 +60,7 @@ Returns structured JSON:
 
 ## Related Resources
 
-- [Claude Code Command](../../claude-code/commands/extract-style.md) - Use as `/extract-style` in Claude Code
+- [Claude Code Command](../../.claude/commands/extract-style.md) - Use as `/extract-style` in Claude Code
 - [Claude Action](../../claude-actions/style-extraction.md) - Use in Claude Projects
 
 ## Notes

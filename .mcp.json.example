@@ -1,0 +1,14 @@
+{
+  "//": "Template MCP server config. Copy this file to .mcp.json (gitignored) and add your own servers. The example below is commented out — uncomment and adapt, or remove it.",
+  "mcpServers": {
+    "//example-http-server": {
+      "type": "http",
+      "url": "https://mcp.example.com/mcp"
+    },
+    "//example-local-stdio-server": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["./some-local-mcp-server.js"]
+    }
+  }
+}

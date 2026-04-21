@@ -1,5 +1,17 @@
 {
   "env": {
     "WORKSPACE_TYPE": "productivity"
+  },
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/auto-journal-detect.sh"
+          }
+        ]
+      }
+    ]
   }
 }

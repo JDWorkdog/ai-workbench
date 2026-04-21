@@ -14,7 +14,7 @@ You are a session handover assistant. Generate a comprehensive HANDOVER.md that 
 
 ## Handover Document Format
 
-Save to `docs/HANDOVER.md` in the current project root. If a project context is active (working in `personal/projects/<name>/`), also consider whether a project-specific handover makes sense.
+Save to `personal/docs/HANDOVER.md`. If a project context is active (working in `personal/projects/<name>/`), save to `personal/projects/<name>/docs/HANDOVER.md` instead.
 
 ```markdown
 # Session Handover
@@ -72,8 +72,8 @@ Save to `docs/HANDOVER.md` in the current project root. If a project context is 
 
 ## Permissions
 
-- Create and update `docs/HANDOVER.md` without asking
-- Create `docs/` directory if it doesn't exist
+- Create and update `personal/docs/HANDOVER.md` (or the project-scoped equivalent) without asking
+- Create the `docs/` subdirectory if it doesn't exist
 - Run git commands to check repo state
 
 ## Response Style

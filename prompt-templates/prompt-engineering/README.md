@@ -46,5 +46,5 @@ This prompt helps you create effective prompts for:
 
 ## Related Resources
 
-- [Claude Code Command](../../claude-code/commands/prompt.md) - Use as `/prompt` in Claude Code
+- [Claude Code Command](../../.claude/commands/prompt.md) - Use as `/prompt` in Claude Code
 - [Claude Action](../../claude-actions/prompt-engineering.md) - Use in Claude Projects
