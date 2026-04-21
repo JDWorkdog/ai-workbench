@@ -7,11 +7,11 @@ Run all repository deep-dive analyses in parallel using sub-agents.
 ### 1. Resolve Repository
 
 Determine from $ARGUMENTS:
-- **Repo name**: Extract from path (e.g., `/path/to/DTCloud` -> `DTCloud`) or use directly
+- **Repo name**: Extract from path (e.g., `/path/to/my-app` -> `my-app`) or use directly
 - **Project folder**: `personal/projects/<repo-name>/`
 - **Repo path**: The absolute path to the repository codebase
 
-If $ARGUMENTS is just a name (e.g., `DTCloud`), check if `personal/projects/<repo-name>/` exists to confirm it's a known project, and look inside the functional spec for the original repository path.
+If $ARGUMENTS is just a name (e.g., `my-app`), check if `personal/projects/<repo-name>/` exists to confirm it's a known project, and look inside the functional spec for the original repository path.
 
 ### 2. Validate Prerequisites
 

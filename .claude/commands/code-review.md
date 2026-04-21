@@ -141,8 +141,8 @@ Use +/- modifiers for nuance (e.g., B+ is better than B, D+ is slightly better t
 - Otherwise: `personal/projects/<repo-or-scope-name>/<scope-name>-code-review.md`
 
 **Filename guidance:** Use the most specific scope name. Examples:
-- Whole repo "DTCloud" → `DTCloud-code-review.md`
-- Feature 10 of DTCloud → `DTCloud-feature10-ai-code-review.md`
+- Whole repo "my-app" → `my-app-code-review.md`
+- Feature 10 of my-app → `my-app-feature10-ai-code-review.md`
 - Specific module → `payment-module-code-review.md`
 
 **Document structure:**

@@ -1,6 +1,19 @@
 {
-  "// INSTRUCTIONS": "Copy this file to settings.local.json to customize (it's gitignored)",
+  "//": "Copy this file to .claude/settings.local.json (gitignored) to customize your local env and permissions. Prune the lists below to match your actual workflow.",
   "env": {
     "USER_NAME": "Your Name"
+  },
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:anthropic.com)",
+      "WebFetch(domain:docs.anthropic.com)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(ls:*)",
+      "Bash(git status:*)",
+      "Bash(git log:*)",
+      "Bash(git diff:*)"
+    ]
   }
 }

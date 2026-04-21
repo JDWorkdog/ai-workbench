@@ -11,7 +11,7 @@ git clone https://github.com/JDWorkdog/ai-workbench.git
 cd ai-workbench
 ```
 
-Open in VS Code with Claude Code extension, then run any command:
+Open in VS Code with the Claude Code extension, then run a command:
 
 ```
 /prd
@@ -19,117 +19,40 @@ Open in VS Code with Claude Code extension, then run any command:
 /brainstorm
 ```
 
-That's it. Your outputs go to the `personal/` folder (or your active project folder).
+Output lands in the gitignored `personal/` folder — your work stays on your machine.
 
 ---
 
-## Available Commands
+## What's Inside
 
-| Command | What It Does | Default Output |
-|---------|--------------|----------------|
-| `/prd` | Create a Product Requirements Document | `personal/drafts/` |
-| `/research` | Research any topic with sources | `personal/research/` |
-| `/prompt` | Build prompts for any AI system | `personal/prompts/` |
-| `/extract-style` | Extract brand styles from PowerPoint | `personal/analysis/` |
-| `/email` | Draft professional emails | (screen) |
-| `/brainstorm` | Generate ideas with frameworks | `personal/brainstorms/` |
-| `/add-task` | Quick task capture | `personal/tasks/` |
-| `/user-story` | Write user stories with acceptance criteria | `personal/drafts/` |
-| `/daily` | Daily journal and task logging | `personal/journal/` |
-| `/meeting-summary` | Summarize meeting transcripts into action items | (screen) |
-| `/code-review` | Deep line-by-line code review with numbered findings | `personal/projects/<name>/` |
-| `/handover` | Generate session handover doc for continuity | `docs/HANDOVER.md` |
-| `/repo-analysis` | Analyze a repository | `personal/projects/<repo-name>/` |
-
-### Developer Commands
-
-For codebase analysis. Run `/repo-analysis` first, then use these individually or `/repo-deep-dive` to run all 4 in parallel.
-
-| Command | What It Does | Default Output |
-|---------|--------------|----------------|
-| `/repo-features` | Feature-by-feature deep dive (business rules, data model, state lifecycles) | `personal/projects/<repo-name>/` |
-| `/repo-code-review` | Comprehensive code quality assessment with A-F grades | `personal/projects/<repo-name>/` |
-| `/repo-tech-detailed` | Implementation-depth technical reference (schemas, APIs, auth flows) | `personal/projects/<repo-name>/` |
-| `/repo-arch-review` | Evaluative architecture fitness assessment with recommendations | `personal/projects/<repo-name>/` |
-| `/repo-deep-dive` | Run all deep-dive analyses in parallel via sub-agents | `personal/projects/<repo-name>/` |
-| `/repo-system-map` | Cross-repo system map showing how repos form one platform | `personal/projects/` |
+- **~20 slash commands** for PRDs, research, brainstorms, emails, code reviews, repo analysis, release-tracking, and more. See [`.claude/CLAUDE.md`](.claude/CLAUDE.md) for the full command list.
+- **Project workspaces** — tell Claude "I'm working on *my-app*" and every command's output routes to `personal/projects/my-app/` automatically.
+- **Auto-journaling** — talk about your day and today's journal entry gets updated without you running `/daily`.
+- **Private by default** — everything in `personal/` and `temp-files/` is gitignored.
+- **Idiomatic Claude Code setup** — rules in `.claude/rules/`, commands in `.claude/commands/`, hooks in `.claude/settings.json`, optional skills/agents folders ready for expansion.
 
 ---
 
-## Project Structure
+## Folder Map
 
 ```
-ai-workbench/
-├── .claude/              # Claude Code configuration
-│   ├── CLAUDE.md         # Workspace guide
-│   └── commands/         # Slash commands
-│
-├── personal/             # All your work (gitignored)
-│   ├── analysis/         # Style guides
-│   ├── brainstorms/      # Brainstorming sessions
-│   ├── drafts/           # PRDs, user stories
-│   ├── journal/          # Daily journal
-│   ├── prompts/          # Generated prompts
-│   ├── research/         # Research reports
-│   ├── tasks/            # Task lists
-│   └── projects/         # Project workspaces
-│       └── my-app/       #   Each subfolder is a project
-│           ├── drafts/   #   Same structure as above
-│           ├── research/
-│           ├── tasks/
-│           └── ...
-│
-├── temp-files/           # Input staging area (gitignored)
-│
-├── prompt-templates/     # Reference prompts (Claude/ChatGPT/Gemini)
-├── guides/               # Role-based guides
-├── resources/            # Getting started docs
-├── claude-actions/       # For Claude.ai Projects
-└── _examples/            # Sample file formats
+.claude/        Claude Code config (commands, rules, hooks, skills, agents)
+personal/       Your work (gitignored)
+  projects/       One subfolder per project
+temp-files/     Input staging area (gitignored)
+prompt-templates/  Universal prompts for Claude, ChatGPT, Gemini
+guides/         Role-based starting points
+resources/      Setup and learning docs
+claude-actions/ Ready-to-paste actions for Claude.ai Projects
+_examples/      Sample file formats
 ```
-
----
-
-## Features
-
-### Project Workspaces
-
-Organize your work into separate projects inside `personal/projects/`:
-
-1. Create a project folder: `personal/projects/my-app/`
-2. Tell Claude you're working on it: *"Let's work on the my-app project"*
-3. All command output automatically saves to your project folder
-
-Each project gets the same folder structure as `personal/` (drafts, research, tasks, etc.) - keeping everything for that project together in one place.
-
-When no project is active, commands save to the default `personal/` subfolders.
-
-### Temp Files
-
-The `temp-files/` folder is an **input staging area**:
-- Drop files here for Claude to process (PowerPoints, transcripts, data files)
-- Contents are gitignored and safe to delete anytime
-- Output is never written here - it always goes to `personal/` or your active project folder
-
-### Auto-Journaling
-Talk about your day - Claude logs it automatically. No need to run `/daily` explicitly.
-
-### Task Management
-Tasks are organized into 4 simple folders:
-- `_inbox/` - Quick capture (default)
-- `work/` - Work-related tasks
-- `personal/` - Personal tasks
-- `ideas/` - Someday/maybe items
-
-### Private by Default
-Everything in `personal/` and `temp-files/` is gitignored. Your work stays on your machine.
 
 ---
 
 ## Role-Based Guides
 
 | Role | Guide | Best For |
-|------|-------|----------|
+|---|---|---|
 | Product Manager | [PM Guide](guides/for-product-managers.md) | PRDs, user stories, release notes |
 | Marketer | [Marketing Guide](guides/for-marketers.md) | Research, content, brainstorming |
 | Engineer | [Engineering Guide](guides/for-engineers.md) | Prompt engineering, code generation |
@@ -137,41 +60,20 @@ Everything in `personal/` and `temp-files/` is gitignored. Your work stays on yo
 
 ---
 
-## What's Inside
+## Related Resources
 
-### [Prompt Templates](prompt-templates/)
-Universal prompts that work across multiple LLMs. Each includes versions for:
-- **Claude** - Leveraging Claude's reasoning
-- **ChatGPT** - Formatted for OpenAI
-- **Gemini** - Adapted for Google
-
-### [Claude Actions](claude-actions/)
-Ready-to-use actions for Claude.ai Projects. No VS Code required - copy and paste into your Claude Project.
-
-### [Resources](resources/)
-- [Getting Started](resources/getting-started/) - Setup guides
-- [Videos](resources/videos.md) - Tutorials
-- [Articles](resources/articles.md) - Deep dives
-- [Tools](resources/tools.md) - Useful utilities
+- [Prompt Templates](prompt-templates/) — cross-LLM prompt library (Claude, ChatGPT, Gemini)
+- [Claude Actions](claude-actions/) — copy-paste instructions for Claude.ai Projects
+- [Resources](resources/) — [getting started](resources/getting-started/), [videos](resources/videos.md), [articles](resources/articles.md), [tools](resources/tools.md)
 
 ---
 
-## Upgrading from v1
+## Local Customization
 
-If you were using the previous folder structure (`output/` and `projects/`), run these commands after pulling:
+Two files are gitignored so you can customize without leaking config:
 
-```bash
-git pull
-
-# Move your existing files
-mv output/* personal/
-mv projects/* personal/projects/
-
-# Clean up old folders
-rmdir output projects
-```
-
-If you haven't generated any files yet, `git pull` is all you need.
+- `.claude/settings.local.json` — copy from [`.claude/settings.local.example.json`](.claude/settings.local.example.json) and add permission allowlists or env overrides.
+- `.mcp.json` — copy from [`.mcp.json.example`](.mcp.json.example) and register your MCP servers (Intercom, Slack, Playwright, etc.).
 
 ---
 
@@ -179,11 +81,9 @@ If you haven't generated any files yet, `git pull` is all you need.
 
 Found a great prompt? Have improvements? See [CONTRIBUTING.md](CONTRIBUTING.md).
 
----
-
 ## License
 
-MIT License - see [LICENSE](LICENSE).
+MIT — see [LICENSE](LICENSE).
 
 ---
 

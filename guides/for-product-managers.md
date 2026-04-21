@@ -37,7 +37,7 @@ If you use Claude Code in VSCode, these commands are built for PM work:
 | `/research` | Comprehensive research with source selection |
 | `/prompt` | Build and refine prompts for any AI system |
 
-[How to install commands →](../claude-code/README.md)
+[How to install Claude Code →](../resources/getting-started/install-claude-code.md)
 
 ## Claude Actions
 

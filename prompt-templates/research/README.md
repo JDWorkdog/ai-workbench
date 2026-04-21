@@ -46,5 +46,5 @@ Generated research includes:
 
 ## Related Resources
 
-- [Claude Code Command](../../claude-code/commands/research.md) - Use as `/research` in Claude Code
+- [Claude Code Command](../../.claude/commands/research.md) - Use as `/research` in Claude Code
 - [Claude Action](../../claude-actions/research.md) - Use in Claude Projects

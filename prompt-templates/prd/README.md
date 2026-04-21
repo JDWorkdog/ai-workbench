@@ -54,5 +54,5 @@ The generated PRD includes:
 
 ## Related Resources
 
-- [Claude Code Command](../../claude-code/commands/prd.md) - Use as `/prd` in Claude Code
+- [Claude Code Command](../../.claude/commands/prd.md) - Use as `/prd` in Claude Code
 - [Claude Action](../../claude-actions/prd.md) - Use in Claude Projects

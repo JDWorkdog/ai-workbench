@@ -42,7 +42,7 @@ If you use Claude Code:
 | `/extract-style` | Extract brand elements for custom proposals |
 | `/prompt` | Build prompts for sales workflows |
 
-[How to install commands →](../claude-code/README.md)
+[How to install Claude Code →](../resources/getting-started/install-claude-code.md)
 
 ## Claude Actions
 

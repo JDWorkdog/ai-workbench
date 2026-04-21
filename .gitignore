@@ -1,9 +1,19 @@
-# User settings (keep private)
+# Local Claude Code settings (gitignored so you can customize without leaking)
 .claude/settings.local.json
 
+# Local MCP server registrations (gitignored — copy .mcp.json.example to start)
+.mcp.json
+
+# Auto-memory (gitignored — memory is personal)
+MEMORY.md
+memory/
+
 # Personal folder contents (all user-generated work)
-# Structure is preserved via .gitkeep files
+# Structure is preserved via .gitkeep files.
+# The !personal/**/ line is required so git can descend into subdirectories;
+# otherwise the .gitkeep negation below wouldn't reach files in excluded dirs.
 personal/**
+!personal/**/
 !personal/.gitkeep
 !personal/**/.gitkeep
 
