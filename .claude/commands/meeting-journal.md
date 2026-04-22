@@ -1,5 +1,9 @@
 Process a meeting transcript and log key items to the daily journal.
 
+## Date Handling
+
+Before creating or naming any journal file, follow [`.claude/rules/date-verification.md`](../rules/date-verification.md) to verify today's date and the correct day-of-week abbreviation.
+
 ## Configuration Files (Optional)
 
 Before processing, check for these configuration files in order of precedence and read whichever are present:
@@ -82,7 +86,12 @@ Track who was in the meeting and who was referenced — these become wiki links.
 
 ## Journal Update
 
-Create or update the journal file for the meeting date at `projects/journal/YYYY-MM-DD-DAY.md`.
+Create or update the journal file for the meeting date. Path depends on project context (see [`.claude/rules/project-scoping.md`](../rules/project-scoping.md)):
+
+- Project active → `personal/projects/<name>/journal/YYYY-MM-DD-DAY.md`
+- No project → `personal/journal/YYYY-MM-DD-DAY.md`
+
+Before deciding the date and day-of-week for the filename, follow [`.claude/rules/date-verification.md`](../rules/date-verification.md).
 
 **If the journal file already exists**, append to the existing sections — do NOT overwrite what's already there.
 

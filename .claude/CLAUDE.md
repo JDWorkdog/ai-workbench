@@ -62,6 +62,7 @@ Detailed rules live in `.claude/rules/` so this file stays lean. Load them when 
 
 - **`project-scoping.md`** — how command output routes when a project context is active
 - **`file-naming.md`** — `YYYY-MM-DD-DAY.md` for journals, `YYYY-MM-DD_topic_type.md` for everything else
+- **`date-verification.md`** — mandatory checklist before writing any dated file (prevents wrong-date and wrong-day-of-week bugs)
 - **`task-folders.md`** — `_inbox/`, `work/`, `personal/`, `ideas/`
 - **`repo-analysis.md`** — `/repo-*` output layout and ordering
 - **`autonomy.md`** — what to do without asking; when to pause
