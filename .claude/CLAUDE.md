@@ -18,6 +18,8 @@ A productivity workspace for Claude Code. Slash commands generate PRDs, research
 | `/daily` | Daily journal entry | `personal/journal/` |
 | `/meeting-summary` | Summarize a meeting transcript | (screen) |
 | `/meeting-journal` | Log meeting items to today's journal | `personal/journal/` |
+| `/morning-sync` | Pull overnight activity from Gmail/Calendar/Granola/Slack and update today's journal | `personal/journal/` |
+| `/evening-sync` | Wrap today — log meetings, outgoing email, Slack activity, pending for tomorrow | `personal/journal/` |
 | `/handover` | Session handover doc for continuity | `personal/docs/HANDOVER.md` |
 
 ### Repo Analysis
@@ -60,13 +62,20 @@ Detailed rules live in `.claude/rules/` so this file stays lean. Load them when 
 
 - **`project-scoping.md`** — how command output routes when a project context is active
 - **`file-naming.md`** — `YYYY-MM-DD-DAY.md` for journals, `YYYY-MM-DD_topic_type.md` for everything else
+- **`date-verification.md`** — mandatory checklist before writing any dated file (prevents wrong-date and wrong-day-of-week bugs)
 - **`task-folders.md`** — `_inbox/`, `work/`, `personal/`, `ideas/`
 - **`repo-analysis.md`** — `/repo-*` output layout and ordering
 - **`autonomy.md`** — what to do without asking; when to pause
 
+Optional user-configurable files (templates in [`_examples/`](../_examples/)):
+
+- **`personal/tags.md`** — auto-hashtag rules + people/customers/projects for `[[wiki-links]]`. Used by `/meeting-journal`. Without it, only `#meeting` is applied and names stay plain.
+- **`personal/organization.md`** — keyword-to-task-folder routing. Used by `/meeting-journal`. Without it, action items default to `tasks/_inbox/`.
+
 ## Automation
 
 - **Auto-journaling** runs as a `UserPromptSubmit` hook (`.claude/hooks/auto-journal-detect.sh`). When your prompt reads like day-talk, Claude gets a reminder to append to today's journal — you don't need to run `/daily` explicitly.
+- **Scheduled journaling** — `/morning-sync` and `/evening-sync` can be scheduled via Claude Code Desktop to keep the journal current automatically. See [`resources/getting-started/setup-scheduled-journaling.md`](../resources/getting-started/setup-scheduled-journaling.md).
 - **Temp files** (`temp-files/`, gitignored) are an *input* staging area for files to process (PowerPoints, transcripts). Never write output there.
 
 ## Reference
