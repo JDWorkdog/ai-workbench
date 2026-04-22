@@ -66,6 +66,11 @@ Detailed rules live in `.claude/rules/` so this file stays lean. Load them when 
 - **`repo-analysis.md`** — `/repo-*` output layout and ordering
 - **`autonomy.md`** — what to do without asking; when to pause
 
+Optional user-configurable files (templates in [`_examples/`](../_examples/)):
+
+- **`personal/tags.md`** — auto-hashtag rules + people/customers/projects for `[[wiki-links]]`. Used by `/meeting-journal`. Without it, only `#meeting` is applied and names stay plain.
+- **`personal/organization.md`** — keyword-to-task-folder routing. Used by `/meeting-journal`. Without it, action items default to `tasks/_inbox/`.
+
 ## Automation
 
 - **Auto-journaling** runs as a `UserPromptSubmit` hook (`.claude/hooks/auto-journal-detect.sh`). When your prompt reads like day-talk, Claude gets a reminder to append to today's journal — you don't need to run `/daily` explicitly.

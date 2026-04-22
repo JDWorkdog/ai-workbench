@@ -1,11 +1,24 @@
 Process a meeting transcript and log key items to the daily journal.
 
-## Before You Start
+## Configuration Files (Optional)
 
-**Read these files first:**
-1. `tags.md` - Know who to auto-tag and what keywords trigger tags
-2. `organization.md` - Know where to file tasks
-3. `.claude/DATE_VERIFICATION.md` - Verify date handling
+Before processing, check for these configuration files in order of precedence and read whichever are present:
+
+1. **Project-scoped** (only when a project context is active):
+   - `personal/projects/<name>/tags.md`
+   - `personal/projects/<name>/organization.md`
+2. **Top-level:**
+   - `personal/tags.md`
+   - `personal/organization.md`
+
+Templates for both live in [`_examples/sample-tags.md`](../../_examples/sample-tags.md) and [`_examples/sample-organization.md`](../../_examples/sample-organization.md). Users copy those to `personal/` and customize.
+
+**Graceful degradation** — if a file isn't found, proceed with sensible defaults:
+
+- **No `tags.md`** → apply only `#meeting` automatically. Skip `[[wiki-link]]` formatting; keep names as plain text.
+- **No `organization.md`** → route all action items to `tasks/_inbox/` per the four-folder taxonomy in [`.claude/rules/task-folders.md`](../rules/task-folders.md).
+
+Do not error or prompt the user when these files are missing — just degrade.
 
 ## Input
 
@@ -88,15 +101,15 @@ Create or update the journal file for the meeting date at `projects/journal/YYYY
 
 ### Rules:
 - **Timestamp**: Use the meeting start time if available from the filename, otherwise use "EOD" for past dates or current time for today
-- **Wiki links**: `[[PersonName]]` for all people mentioned (match against tags.md People section)
-- **Hashtags**: Apply silently per tags.md rules. Always include `#meeting`
-- **Task filing**: File action items to the correct folder per organization.md keywords
+- **Wiki links**: `[[PersonName]]` for people matched in the `tags.md` People section. If `tags.md` isn't present, leave names as plain text.
+- **Hashtags**: Apply silently per `tags.md` rules. Always include `#meeting`. If `tags.md` isn't present, only `#meeting` is applied automatically.
+- **Task filing**: File action items per `organization.md` keywords. If `organization.md` isn't present, default all action items to `tasks/_inbox/`.
 - **Be concise**: Journal entries should be scannable, not paragraphs
 
 ## Task Creation
 
 For each action item extracted:
-1. Determine the correct task folder from organization.md
+1. Determine the correct task folder. If `organization.md` is present, match against its keyword lists; otherwise default to `tasks/_inbox/`.
 2. Check if a similar task already exists in that folder's `tasks.md`
 3. If new, add it to the appropriate `tasks.md` file
 4. Log it in the journal under "Added to Task List" with `→ [folder]`
