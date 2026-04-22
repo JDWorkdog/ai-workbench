@@ -54,6 +54,7 @@ All generated content lives here. Gitignored. Subfolders:
 - `drafts/` — PRDs, user stories
 - `journal/` — daily entries
 - `projects/` — project-scoped workspaces (see `.claude/rules/project-scoping.md`)
+- `resources/` — personal config files like `tags.md` and `organization.md` (copy templates from `resources/_examples/`)
 - `prompts/`, `research/`, `tasks/` — self-explanatory
 
 ## Core Rules
@@ -67,10 +68,10 @@ Detailed rules live in `.claude/rules/` so this file stays lean. Load them when 
 - **`repo-analysis.md`** — `/repo-*` output layout and ordering
 - **`autonomy.md`** — what to do without asking; when to pause
 
-Optional user-configurable files (templates in [`_examples/`](../_examples/)):
+Optional user-configurable files (templates in [`resources/_examples/`](../resources/_examples/)):
 
-- **`personal/tags.md`** — auto-hashtag rules + people/customers/projects for `[[wiki-links]]`. Used by `/meeting-journal`. Without it, only `#meeting` is applied and names stay plain.
-- **`personal/organization.md`** — keyword-to-task-folder routing. Used by `/meeting-journal`. Without it, action items default to `tasks/_inbox/`.
+- **`personal/resources/tags.md`** — auto-hashtag rules + people/customers/projects for `[[wiki-links]]`. Used by `/meeting-journal`. Without it, only `#meeting` is applied and names stay plain.
+- **`personal/resources/organization.md`** — keyword-to-task-folder routing. Used by `/meeting-journal`. Without it, action items default to `tasks/_inbox/`.
 
 ## Automation
 
@@ -82,5 +83,4 @@ Optional user-configurable files (templates in [`_examples/`](../_examples/)):
 
 - `prompt-templates/` — universal prompts for Claude, ChatGPT, Gemini
 - `guides/` — role-based starting points
-- `resources/` — getting-started docs
-- `_examples/` — sample file formats
+- `resources/` — getting-started docs, sample file formats (`_examples/`)

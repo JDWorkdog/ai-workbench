@@ -2,12 +2,12 @@
 
 Copy this file to one of these locations and customize the keyword lists to match how you actually categorize work:
 
-- `personal/organization.md` — applies to every session in this workbench
-- `personal/projects/<name>/organization.md` — applies only when that project context is active (takes precedence over the top-level file)
+- `personal/resources/organization.md` — applies to every session in this workbench
+- `personal/projects/<name>/resources/organization.md` — applies only when that project context is active (takes precedence over the top-level file)
 
 Commands like `/meeting-journal` (and optionally `/add-task` in the future) use this file to route action items to the right folder based on keyword matches. If no `organization.md` exists, commands fall back to the four-folder default and prompt the user when the folder is ambiguous.
 
-The folder list below matches the four-folder default in [`.claude/rules/task-folders.md`](../.claude/rules/task-folders.md). Add more folders as your workflow grows.
+The folder list below matches the four-folder default in [`.claude/rules/task-folders.md`](../../.claude/rules/task-folders.md). Add more folders as your workflow grows.
 
 ---
 

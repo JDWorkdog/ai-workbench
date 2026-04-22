@@ -40,12 +40,12 @@ Output lands in the gitignored `personal/` folder — your work stays on your ma
 .claude/        Claude Code config (commands, rules, hooks, skills, agents)
 personal/       Your work (gitignored)
   projects/       One subfolder per project
+  resources/      Your personal config (tags.md, organization.md) — copy from resources/_examples/
 temp-files/     Input staging area (gitignored)
 prompt-templates/  Universal prompts for Claude, ChatGPT, Gemini
 guides/         Role-based starting points
-resources/      Setup and learning docs
+resources/      Setup docs, learning links, and sample file formats (_examples/)
 claude-actions/ Ready-to-paste actions for Claude.ai Projects
-_examples/      Sample file formats
 ```
 
 ---

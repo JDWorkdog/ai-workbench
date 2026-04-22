@@ -9,13 +9,13 @@ Before creating or naming any journal file, follow [`.claude/rules/date-verifica
 Before processing, check for these configuration files in order of precedence and read whichever are present:
 
 1. **Project-scoped** (only when a project context is active):
-   - `personal/projects/<name>/tags.md`
-   - `personal/projects/<name>/organization.md`
+   - `personal/projects/<name>/resources/tags.md`
+   - `personal/projects/<name>/resources/organization.md`
 2. **Top-level:**
-   - `personal/tags.md`
-   - `personal/organization.md`
+   - `personal/resources/tags.md`
+   - `personal/resources/organization.md`
 
-Templates for both live in [`_examples/sample-tags.md`](../../_examples/sample-tags.md) and [`_examples/sample-organization.md`](../../_examples/sample-organization.md). Users copy those to `personal/` and customize.
+Templates for both live in [`resources/_examples/sample-tags.md`](../../resources/_examples/sample-tags.md) and [`resources/_examples/sample-organization.md`](../../resources/_examples/sample-organization.md). Users copy those to `personal/resources/` and customize.
 
 **Graceful degradation** — if a file isn't found, proceed with sensible defaults:
 
