@@ -1,10 +1,10 @@
 # Local Claude Code settings (gitignored so you can customize without leaking)
 .claude/settings.local.json
 
-# Local MCP server registrations (gitignored — copy .mcp.json.example to start)
+# Local MCP server registrations (gitignored; copy .mcp.json.example to start)
 .mcp.json
 
-# Auto-memory (gitignored — memory is personal)
+# Auto-memory (gitignored; memory is personal)
 MEMORY.md
 memory/
 
@@ -16,6 +16,9 @@ personal/**
 !personal/**/
 !personal/.gitkeep
 !personal/**/.gitkeep
+# The journal schema ships with the kit (single source of truth for all
+# journal writers and readers); everything else in personal/ stays private.
+!personal/journal/SCHEMA.md
 
 # Temp files (input staging area, safe to delete)
 temp-files/**

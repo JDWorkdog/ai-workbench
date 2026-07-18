@@ -1,0 +1,24 @@
+# Project-level Codex configuration for the AI Workbench.
+# Codex reads AGENTS.md natively; skills are discovered from .agents/skills/.
+# Note: project-level config cannot override the provider or base URL.
+
+[shell_environment_policy]
+inherit = "core"
+
+[shell_environment_policy.set]
+WORKSPACE_TYPE = "productivity"
+
+# Model tier profiles for the routing table in AGENTS.md.
+# Usage: codex --profile luna | terra | sol, or codex exec -m <model> for one-shots.
+# Use the exact runtime-exposed model IDs; generic family IDs can be rejected.
+[profiles.luna]
+model = "gpt-5.6-luna"
+model_reasoning_effort = "medium"
+
+[profiles.terra]
+model = "gpt-5.6-terra"
+model_reasoning_effort = "medium"
+
+[profiles.sol]
+model = "gpt-5.6-sol"
+model_reasoning_effort = "high"

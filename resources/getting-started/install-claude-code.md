@@ -1,112 +1,56 @@
 # Installing Claude Code
 
-Claude Code is Anthropic's CLI tool that brings Claude into your development environment. This guide covers installation for VSCode and terminal.
+Claude Code is Anthropic's coding agent. It runs as a terminal CLI, a desktop app (Mac/Windows), a web app, and IDE extensions for VS Code and JetBrains. For this workbench you want the CLI or IDE extension for daily work, plus the desktop app if you plan to use scheduled tasks (the journaling pipeline runs on them).
+
+Current install and auth details move fast; when in doubt, follow the official docs at https://code.claude.com/docs. The steps below are the stable path as of mid-2026.
 
 ## Prerequisites
 
-- An Anthropic account with API access
-- Node.js 18+ (for CLI installation)
-- VSCode (for extension installation)
+- A Claude account (Pro or Max) or an Anthropic Console account with API billing. Subscription accounts are the usual choice for interactive daily use.
 
-## Option 1: VSCode Extension (Recommended)
+## 1. Install the CLI
 
-The easiest way to use Claude Code is through the VSCode extension.
+macOS/Linux:
 
-### Installation Steps
+```bash
+curl -fsSL https://claude.ai/install.sh | bash
+```
 
-1. **Open VSCode**
+Alternative via npm (requires Node 18+):
 
-2. **Open Extensions**
-   - Press `Cmd+Shift+X` (Mac) or `Ctrl+Shift+X` (Windows/Linux)
-   - Or click the Extensions icon in the sidebar
+```bash
+npm install -g @anthropic-ai/claude-code
+```
 
-3. **Search for Claude Code**
-   - Type "Claude Code" in the search box
-   - Look for the official extension by Anthropic
+Verify:
 
-4. **Install**
-   - Click "Install"
-   - Wait for installation to complete
+```bash
+claude --version
+```
 
-5. **Authenticate**
-   - Open the Command Palette: `Cmd+Shift+P` (Mac) or `Ctrl+Shift+P`
-   - Type "Claude Code: Sign In"
-   - Follow the authentication flow
+## 2. Sign in
 
-6. **Start Using**
-   - Open the Claude Code panel from the sidebar
-   - Or use `Cmd+Shift+P` → "Claude Code: Open"
+Run `claude` in any folder and follow the sign-in flow (or use `/login` inside a session). Choose your Claude subscription account or Console account when prompted.
 
-## Option 2: CLI Installation
+## 3. IDE extension (optional but recommended)
 
-For terminal-based usage or integration with other tools.
+Install the "Claude Code" extension from the VS Code marketplace (or the JetBrains plugin). It gives you the same agent with inline diffs, file mentions, and a sidebar UI. Sign-in carries over from the CLI.
 
-### Installation Steps
+## 4. Desktop app (needed for scheduled tasks)
 
-1. **Install via npm**
-   ```bash
-   npm install -g @anthropic-ai/claude-code
-   ```
+Download the Claude Code desktop app from https://claude.com/claude-code. The desktop app can run scheduled tasks while your editor is closed; the journaling pipeline in [`guides/journaling-guide.md`](../../guides/journaling-guide.md) depends on this. Add this workbench folder as a project in the app.
 
-2. **Authenticate**
-   ```bash
-   claude auth login
-   ```
-   Follow the prompts to sign in.
+## 5. Open the workbench
 
-3. **Verify Installation**
-   ```bash
-   claude --version
-   ```
+```bash
+cd ai-workbench
+claude
+```
 
-4. **Start Using**
-   ```bash
-   claude
-   ```
-   This opens an interactive session.
-
-## Configuration
-
-### Setting Up Commands
-
-1. Create a `.claude/` directory in your project root:
-   ```bash
-   mkdir -p .claude/commands
-   ```
-
-2. Add command files (`.md` files) to `.claude/commands/`
-
-3. Commands are available as `/command-name`
-
-### Setting Up Skills
-
-1. Create a `skills/` directory in your project:
-   ```bash
-   mkdir skills
-   ```
-
-2. Copy skill folders into this directory
-
-3. Skills are automatically available to Claude
+Then run `/setup` and follow the prompts. Slash commands (`/prd`, `/research`, `/daily`) come from `.claude/commands/`, skills from `.claude/skills/`, and the workspace rules from `AGENTS.md` via `CLAUDE.md`.
 
 ## Troubleshooting
 
-### "Command not found"
-- Ensure Node.js is installed: `node --version`
-- Try reinstalling: `npm install -g @anthropic-ai/claude-code`
-
-### Authentication Issues
-- Clear credentials: `claude auth logout`
-- Re-authenticate: `claude auth login`
-- Check your Anthropic account has API access enabled
-
-### Extension Not Working
-- Reload VSCode: `Cmd+Shift+P` → "Developer: Reload Window"
-- Check the Output panel for errors
-- Ensure you're signed in
-
-## Resources
-
-- [Official Documentation](https://docs.anthropic.com/en/docs/claude-code)
-- [Anthropic Console](https://console.anthropic.com) - Manage API keys
-- [Claude Code GitHub](https://github.com/anthropics/claude-code)
+- **Command not found after npm install**: your npm global bin directory is not on PATH. `npm config get prefix` and add its `bin/` to PATH.
+- **Permission prompts feel constant**: copy `.claude/settings.local.example.json` to `.claude/settings.local.json` and extend the permission allowlist deliberately.
+- **Corporate proxy issues**: see the official docs for proxy and enterprise configuration.

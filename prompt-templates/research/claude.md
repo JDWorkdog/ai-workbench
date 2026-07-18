@@ -24,7 +24,7 @@ Help me research a topic. First, ask these questions:
 ## After I Answer
 
 ### Determine Research Approach
-- Use web search for: current events, recent developments, post-2024 topics, rapidly changing fields
+- Use web search for: current events, recent developments, anything newer than the model's training data, rapidly changing fields
 - Use knowledge base for: historical, conceptual, established topics
 
 ### Gather Information

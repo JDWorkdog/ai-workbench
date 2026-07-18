@@ -111,8 +111,8 @@ If they don't have one, note this as an opportunity.
 ### 3. Generate Report
 
 **Save location:**
-- If a project path was specified: `personal/projects/<project-name>/claude-md-review.md`
-- If reviewing current directory: save alongside the project's other docs, or `personal/drafts/YYYY-MM-DD_claude-md-review.md`
+- If a project path was specified: `personal/projects/<project-name>/harness-review.md`
+- If reviewing current directory: save alongside the project's other docs, or `personal/drafts/YYYY-MM-DD_harness-review.md`
 - If "global" scope: `personal/drafts/YYYY-MM-DD_global-claude-config-review.md`
 
 **Report structure:**

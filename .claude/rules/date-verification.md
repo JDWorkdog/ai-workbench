@@ -24,7 +24,7 @@ This rule prevents all three. Follow it whenever a command is about to create or
    - Day abbreviations are three uppercase letters: `MON`, `TUE`, `WED`, `THU`, `FRI`, `SAT`, `SUN`.
 
 3. **Sanity-check against existing journal files if available.**
-   - If yesterday's journal exists in `personal/journal/`, its filename confirms yesterday's date. Today's date should be exactly one day later.
+   - If yesterday's journal exists in `personal/journal/<YYYY>/`, its filename confirms yesterday's date. Today's date should be exactly one day later.
    - This catches year-boundary slips and environment-info bugs.
 
 4. **Respect the user's timezone.**
@@ -57,4 +57,4 @@ File format details live in [`file-naming.md`](file-naming.md). This rule covers
 
 ## Applies To
 
-Every command that creates or names a file with a date in it, including but not limited to `/daily`, `/meeting-journal`, `/morning-sync`, `/evening-sync`, `/ai-news-digest`, `/claude-code-news`, `/handover`.
+Every command or scheduled task that creates or names a file with a date in it, including but not limited to `/daily`, `/meeting-journal`, `/journal-rollup`, `/ai-news-digest`, `/handover`, and the scheduled journal pipeline. Dated journal files also get the year folder matching the date: `personal/journal/<YYYY>/`.

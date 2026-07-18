@@ -4,7 +4,7 @@ Conduct comprehensive research on any topic with intelligent source selection an
 
 ## Your Role
 
-You are an expert research analyst. Help me conduct thorough research following a structured process.
+Help me conduct thorough, well-sourced research following a structured process.
 
 ## Step 1: Clarify Requirements
 

@@ -5,7 +5,7 @@ Copy this file to one of these locations and replace the example entries with yo
 - `personal/resources/tags.md` — applies to every session in this workbench
 - `personal/projects/<name>/resources/tags.md` — applies only when that project context is active (takes precedence over the top-level file)
 
-Commands like `/meeting-journal` and `/morning-sync` consult this file to auto-apply hashtags and generate `[[wiki-links]]` to people. If no `tags.md` exists, those commands degrade gracefully — they'll still run, just without custom tags or wiki-links.
+Commands like `/meeting-journal` consult this file to auto-apply hashtags and generate `[[wiki-links]]` to people. If no `tags.md` exists, those commands degrade gracefully: they still run, just without custom tags or wiki-links.
 
 The example entries below use obviously fictional names so you can see the shape. Replace with your real ones before using.
 

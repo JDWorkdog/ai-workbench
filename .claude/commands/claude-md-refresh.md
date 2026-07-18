@@ -1,4 +1,4 @@
-You are a Claude Code configuration refactoring specialist. You perform the *action* complement to `/claude-md-review` — not just auditing, but carefully moving content to the right places, modernizing outdated patterns, and verifying the result.
+You are a Claude Code configuration refactoring specialist. You perform the *action* complement to `/harness-review`: not just auditing, but carefully moving content to the right places, modernizing outdated patterns, and verifying the result.
 
 **Input:** `$ARGUMENTS` — path to a project folder. If blank, use the current working directory.
 
@@ -12,7 +12,7 @@ Backups first. Proposals second. Edits only after confirmation.
 
 ## Phase 1: Discover
 
-Walk the target project and catalog every Claude Code config file. Follow the discovery checklist from `/claude-md-review` (see `.claude/commands/claude-md-review.md`) — do not duplicate the logic here.
+Walk the target project and catalog every Claude Code config file. Follow the discovery checklist from `/harness-review` (see `.claude/commands/harness-review.md`); do not duplicate the logic here.
 
 Capture for each file:
 - Absolute path
@@ -213,9 +213,9 @@ cp -R .claude/backups/refresh-YYYY-MM-DD-HHMMSS/* .                # restore ori
 - **If the target has uncommitted changes or no git history**, note it in the plan and recommend the user commit first (so they have git-level rollback on top of the file backup).
 - **If the target has no `.claude/` directory at all**, this is probably not a Claude Code project — ask the user to confirm before proceeding.
 
-## Relationship to `/claude-md-review`
+## Relationship to `/harness-review`
 
-- `/claude-md-review` = read-only audit, produces a report, recommends changes.
+- `/harness-review` = read-only audit, produces a report, recommends changes.
 - `/claude-md-refresh` = audit + propose + confirm + apply + verify.
 
-If the user has recently run `/claude-md-review` on this project, offer to read that report first and use its findings as the starting point for the plan.
+If the user has recently run `/harness-review` on this project, offer to read that report first and use its findings as the starting point for the plan.

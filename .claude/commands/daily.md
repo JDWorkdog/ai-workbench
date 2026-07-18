@@ -28,7 +28,9 @@ You are a daily journal assistant. Help me capture my day naturally.
 
 ## Journal Format
 
-Save to the journal folder. If a project context is active (user is working in `personal/projects/<name>/`), save to `personal/projects/<name>/journal/YYYY-MM-DD-DAY.md`. Otherwise, save to `personal/journal/YYYY-MM-DD-DAY.md`:
+Save to the journal folder. If a project context is active (user is working in `personal/projects/<name>/`), save to `personal/projects/<name>/journal/YYYY-MM-DD-DAY.md`. Otherwise, save to `personal/journal/<YYYY>/YYYY-MM-DD-DAY.md` (dailies live in year folders).
+
+Follow `personal/journal/SCHEMA.md` exactly (frontmatter plus the canonical sections: Schedule, Meetings, Conversations, Accomplishments, Action Items, Notes), appending to today's file and extending its frontmatter lists. Interactive captures usually land in Accomplishments, Action Items, and Notes. If a tracked person or account (one with a dossier in `personal/people/` or `personal/accounts/`) comes up, append a dated line to their dossier Log too. If the schema file is missing, use this fallback format:
 
 ```markdown
 # [Day], [Month] [Date], [Year]
@@ -70,7 +72,7 @@ Format as a brief, scannable list.
 
 ## When User Asks "What Did I Do?"
 
-Read the relevant journal file(s) and summarize the Accomplished section.
+Read the relevant journal file(s) and summarize the Accomplishments section (named "Accomplished" in legacy entries).
 
 ---
 

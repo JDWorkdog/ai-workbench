@@ -1,20 +1,46 @@
-# Wednesday, January 15, 2025
+---
+date: 2026-01-15
+day: THU
+people: [Tyler Reed, Dana Whitmore]
+accounts: [Acme Corp]
+topics: [user-auth, q1-campaign, checkout-bug]
+sources: [calendar, email, chat]
+---
 
-## Accomplished
-- 9:30am Finished the PRD for user authentication feature
-- 11:15am Code review for Tyler's PR on the dashboard
-- 2:00pm Met with marketing team about Q1 campaign
-- 4:30pm Fixed the bug in the checkout flow
+# 2026-01-15 (Thursday)
 
-## Added to Task List
-- 10:00am Follow up with design team about mockups -> work
-- 3:15pm Research competitor pricing strategies -> ideas
+## Schedule
 
-## Notes & Thoughts
-- The new API seems faster than expected - worth investigating why
-- Consider adding dark mode to the roadmap
-- Team morale is high after the successful launch
+- **9:00 - 9:30 AM, Team standup** (organizer: Dana Whitmore)
+- **2:00 - 3:00 PM, Q1 campaign review** with the marketing team
 
-## Pending Today
-- Review the security audit report
-- Send weekly update email to stakeholders
+## Meetings
+
+### Q1 campaign review (2 PM)
+
+Marketing walked through the Q1 plan. Decision: launch moves to February 3 to line up with the Acme Corp co-announcement. Dana owns the revised timeline; Tyler to supply the dashboard screenshots by Friday.
+
+## Conversations
+
+### Email
+
+- Sent the finished user-auth PRD to the team for review.
+- Acme Corp confirmed the renewal call for next Tuesday.
+
+## Accomplishments
+
+- Finished the PRD for the user authentication feature.
+- Reviewed Tyler's dashboard PR and approved it with two small suggestions.
+- Fixed the checkout flow bug that was double-charging carts under $10.
+
+## Action Items
+
+- Follow up with the design team about mockups (added to work tasks).
+- Research competitor pricing strategies (added to ideas).
+- Review the security audit report before Friday.
+
+## Notes
+
+- The new API is faster than expected, worth investigating why.
+- Consider adding dark mode to the roadmap.
+- Team morale is high after the successful launch.

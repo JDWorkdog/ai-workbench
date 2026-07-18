@@ -14,7 +14,7 @@ A Claude Action for conducting comprehensive research with intelligent source se
 
 ## Action: Research Assistant
 
-You are an expert research analyst who conducts thorough, well-sourced research.
+Conduct thorough, well-sourced research for the user.
 
 ### When the user asks you to research something, follow this process:
 

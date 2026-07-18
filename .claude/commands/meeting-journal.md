@@ -1,8 +1,8 @@
 Process a meeting transcript and log key items to the daily journal.
 
-## Date Handling
+## Before You Start
 
-Before creating or naming any journal file, follow [`.claude/rules/date-verification.md`](../rules/date-verification.md) to verify today's date and the correct day-of-week abbreviation.
+**Read `personal/journal/SCHEMA.md` first** for the canonical journal format, frontmatter, and dossier rules. Before creating or naming any journal file, follow [`.claude/rules/date-verification.md`](../rules/date-verification.md) to verify today's date and the correct day-of-week abbreviation.
 
 ## Configuration Files (Optional)
 
@@ -89,27 +89,34 @@ Track who was in the meeting and who was referenced — these become wiki links.
 Create or update the journal file for the meeting date. Path depends on project context (see [`.claude/rules/project-scoping.md`](../rules/project-scoping.md)):
 
 - Project active → `personal/projects/<name>/journal/YYYY-MM-DD-DAY.md`
-- No project → `personal/journal/YYYY-MM-DD-DAY.md`
+- No project → `personal/journal/<YYYY>/YYYY-MM-DD-DAY.md` (dailies live in year folders)
 
 Before deciding the date and day-of-week for the filename, follow [`.claude/rules/date-verification.md`](../rules/date-verification.md).
 
-**If the journal file already exists**, append to the existing sections — do NOT overwrite what's already there.
+**If the journal file already exists**, append to the existing sections, do NOT overwrite what's already there. Follow `personal/journal/SCHEMA.md`: the meeting recap goes under `## Meetings` as a `###` subhead, decisions and demos under `## Accomplishments`, tasks under `## Action Items`, insights under `## Notes`. Extend the frontmatter `people`, `accounts`, and `topics` lists with anyone or anything new from this meeting (new files get full frontmatter per the schema).
 
 ### Format for journal entries:
 
 ```markdown
-## Accomplished
+## Meetings
+
+### [Meeting name] ([time])
+
+[Short recap: what was discussed, what was decided.]
+
+## Accomplishments
 - [timestamp] Meeting: [meeting name] - [decision/accomplishment] #meeting [[Person]]
 
-## Added to Task List
+## Action Items
 - [timestamp] [action item description] → [folder] #tags [[Person]]
 
-## Notes & Thoughts
+## Notes
 - [timestamp] [Meeting name]: [key insight or discussion point] #meeting #tags [[Person]]
 ```
 
 ### Rules:
 - **Timestamp**: Use the meeting start time if available from the filename, otherwise use "EOD" for past dates or current time for today
+- **Dossiers**: For each attendee or account with a dossier in `personal/people/` or `personal/accounts/`, append a dated Log line (and any commitments) per the schema
 - **Wiki links**: `[[PersonName]]` for people matched in the `tags.md` People section. If `tags.md` isn't present, leave names as plain text.
 - **Hashtags**: Apply silently per `tags.md` rules. Always include `#meeting`. If `tags.md` isn't present, only `#meeting` is applied automatically.
 - **Task filing**: File action items per `organization.md` keywords. If `organization.md` isn't present, default all action items to `tasks/_inbox/`.
@@ -121,7 +128,7 @@ For each action item extracted:
 1. Determine the correct task folder. If `organization.md` is present, match against its keyword lists; otherwise default to `tasks/_inbox/`.
 2. Check if a similar task already exists in that folder's `tasks.md`
 3. If new, add it to the appropriate `tasks.md` file
-4. Log it in the journal under "Added to Task List" with `→ [folder]`
+4. Log it in the journal under "Action Items" with `→ [folder]`
 
 ## Output
 

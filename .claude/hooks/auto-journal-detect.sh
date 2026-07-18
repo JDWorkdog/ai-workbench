@@ -26,10 +26,11 @@ pattern='\b(today|this morning|this afternoon|yesterday|just finished|just shipp
 if printf '%s' "$prompt" | grep -qiE "$pattern"; then
   date_str=$(date +%Y-%m-%d)
   day_str=$(date +%a | tr '[:lower:]' '[:upper:]')
-  journal_file="personal/journal/${date_str}-${day_str}.md"
+  year_str=$(date +%Y)
+  journal_file="personal/journal/${year_str}/${date_str}-${day_str}.md"
   cat <<EOF
 <system-reminder>
-Auto-journal hint: the user's prompt reads like day-talk. Per workspace convention, append any accomplishments, tasks, meetings, or plans you extract from this turn to \`${journal_file}\`. Create the file with the standard header if it doesn't exist. If a project context is active, write to that project's journal folder instead.
+Auto-journal hint: the user's prompt reads like day-talk. Per workspace convention, append any accomplishments, tasks, meetings, or plans you extract from this turn to \`${journal_file}\`, following personal/journal/SCHEMA.md (frontmatter and canonical sections). Create the file per the schema if it doesn't exist. If a project context is active, write to that project's journal folder instead.
 </system-reminder>
 EOF
 fi
