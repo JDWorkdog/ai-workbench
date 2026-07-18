@@ -7,7 +7,13 @@ description: Install or upgrade a model-routing and delegation layer in the curr
 
 Where the cleanup kits prune, this skill installs. It audits how the current project routes work between model tiers and proposes the missing pieces: a delegation roster with pinned models, a routing table in the instructions file, Codex tier profiles, and a QA policy. Nothing is written without the user approving the numbered proposal.
 
-The method and rationale live in `guides/model-routing-guide.md` (in the AI Workbench; read it if available). Reference roster definitions to copy from: `~/.claude/agents/` and `~/.codex/agents/` (fetcher, summarizer, implementer, qa-reviewer, architect).
+This skill is self-contained: everything it installs ships in its own `references/` folder, so it works on a machine with no prior roster anywhere.
+
+- `references/claude-agents/`: the five Claude Code roles (fetcher, summarizer, implementer, qa-reviewer, architect) with pinned models
+- `references/codex-agents/`: the same five roles as Codex TOML definitions (luna/terra/sol tiers)
+- `references/routing-table.md`: paste-ready Model Routing, QA Policy, and Codex profile blocks
+
+The method and rationale live in `guides/model-routing-guide.md` (in the AI Workbench; read it if available). If the user already has a roster at `~/.claude/agents/` or `~/.codex/agents/`, prefer consistency with theirs over the bundled references.
 
 ## Step 1: Inventory (read-only)
 
@@ -33,7 +39,8 @@ For each item: what changes, why, and how to reverse it. Recommend, do not pad; 
 ## Step 3: Apply approved items only
 
 - Back up every file before touching it (state where the backups are).
-- Copy roster definitions from the reference roster, adjusting tools and stack references to this project. Keep each description selection-oriented: what the role is for and what it must not be used for.
+- Copy roster definitions from this skill's `references/claude-agents/` and `references/codex-agents/` folders (or from the user's existing user-level roster if one exists), adjusting tools and stack references to this project. Keep each description selection-oriented: what the role is for and what it must not be used for.
+- Insert the routing table and QA policy using the blocks in `references/routing-table.md` as the starting point, with the change classes edited to what this project actually ships.
 - Insert the routing table and QA policy into the canonical instructions file (never into a duplicate).
 - Do not change permission or approval settings while installing; note them for the user if they conflict with the roster (for example, a sandbox that blocks subagent spawning).
 
