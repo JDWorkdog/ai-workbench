@@ -9,8 +9,8 @@
 
 By the end of this guide, you will be able to:
 
-- Set up Claude Code in VS Code using the tab-based workflow
-- Understand the `.claude/` configuration system (project vs. personal level)
+- Set up Claude Code in VS Code using the tab-based workflow, and tailor the workspace with `/setup`
+- Understand how the workspace is configured (`AGENTS.md`, the `.claude/` folder, project vs. personal level)
 - Run a repository analysis that generates functional and technical documentation
 - Use the three operating modes (Ask Before Edit, Auto Edit, Plan Mode)
 - Manage context windows and hand off between agents
@@ -25,7 +25,7 @@ By the end of this guide, you will be able to:
 - **VS Code** installed
 - **Claude Code extension** installed (search "Claude Code" in VS Code Extensions)
 - **A Claude account** -- either:
-  - **Claude Pro subscription** (recommended for daily users -- flat monthly fee includes Claude Code usage)
+  - **Claude subscription (Pro or Max)** (recommended for daily users -- flat monthly fee includes Claude Code usage)
   - **Anthropic Console API key** (better for occasional use -- low monthly fee plus per-call charges)
 - **Git** installed
 - A code repository you're familiar with (for the analysis exercises)
@@ -66,41 +66,66 @@ Click the authentication button in the Claude Code tab:
 
 **Which should you choose?** If you plan to use Claude Code daily as part of your development workflow, the subscription is more economical. Heavy daily users will quickly exceed the subscription cost in API charges. For occasional use (a few times per day), the API model may be more cost-effective.
 
+### Step 5: Run `/setup`
+
+The workbench ships with a first-run setup skill. In your Claude Code tab, type:
+
+```
+/setup
+```
+
+It asks whether you use Claude Code, Codex, or both, offers to prune the parts you don't need, helps you personalize your local settings (`.claude/settings.local.json` and `.mcp.json`, both gitignored), and walks through a connector checklist for the journal pipeline. It leaves a receipt at `personal/docs/setup-receipt.md`, so re-running it later is safe.
+
 ---
 
 ## Part 2: Understanding the Configuration System
 
+### One Canonical Guide: `AGENTS.md`
+
+Open `AGENTS.md` in the root of the workspace. This is the canonical guide that every AI assistant reads when it starts. Workspace rules, writing style rules, the full command table, the model-routing table, and folder conventions all live here, and only here.
+
+Two things make this arrangement work:
+
+1. **`CLAUDE.md` is a thin pointer.** Claude Code looks for `CLAUDE.md`, so the root `CLAUDE.md` simply imports `AGENTS.md`. Codex reads `AGENTS.md` natively. One home per rule means the two assistants never drift apart.
+2. **Rule changes go in `AGENTS.md` and nowhere else.** When you want to change how the workspace behaves, edit `AGENTS.md` (or, better, tell Claude to; see Part 8).
+
 ### The `.claude/` Folder
 
-Open the `.claude/` folder in the VS Code explorer. You'll find two key things:
+Alongside the root guide, the `.claude/` folder holds the Claude Code machinery:
 
-1. **`CLAUDE.md`** -- A configuration file containing persistent instructions for Claude. Think of it as "custom instructions" that every Claude agent reads when it starts.
-2. **`commands/`** -- A folder of markdown files, each defining a reusable slash command.
+| Folder | What's in it |
+|--------|--------------|
+| `commands/` | Markdown files, each defining a reusable slash command |
+| `skills/` | Skill packages (a folder per skill with a `SKILL.md`), the canonical home for capabilities both assistants share |
+| `agents/` | The delegation roster: five sub-agent roles with pinned model tiers (see `guides/model-routing-guide.md`) |
+| `rules/` | Detailed rules loaded on demand (file naming, project scoping, date verification) |
+| `hooks/` | Shell hooks, like the auto-journal reminder |
+
+There is also a `.codex/` folder (Codex tier profiles and roster) and `.agents/skills/` (a generated mirror of `.claude/skills/` for Codex). Never hand-edit the mirror; `scripts/sync-codex-skills.sh --write` regenerates it. If you only use Claude Code, don't worry about the Codex surface: `/setup` offers to remove it.
 
 ### Project-Level vs. Personal-Level Configuration
 
-There are actually **two** `.claude/` folders:
+Configuration exists at two levels:
 
 | Level | Location | Scope |
 |-------|----------|-------|
-| **Project-level** | Inside your project folder (`.claude/`) | Only applies to this specific project |
+| **Project-level** | Inside the project folder (`AGENTS.md`, `.claude/`) | Only applies to this specific project |
 | **Personal-level** | In your home directory (`~/.claude/` on Mac, `C:\Users\<name>\.claude\` on Windows) | Applies globally across ALL projects |
 
 **When to use which:**
-- Project-level: Commands and rules specific to one codebase (e.g., "always use C# conventions in this project")
+- Project-level: Commands and rules specific to one workspace or codebase (e.g., "always use C# conventions in this project")
 - Personal-level: Commands and rules you want everywhere (e.g., "never give me time estimates," or a cleanup command you use on every project)
 
 **Promoting a command to global:** If you create a command in a project and realize you want it everywhere, just tell Claude: *"Can you copy this command to my personal `.claude/` folder and update my personal `CLAUDE.md` so it knows about it?"*
 
-### Commands vs. Skills (Actions)
+### Commands vs. Skills
 
-Both are stored as simple markdown (`.md`) files:
-
-| Feature | Commands | Skills (Actions) |
-|---------|----------|-------------------|
-| How to invoke | Type `/command-name` explicitly | Claude detects from natural language |
-| Best for | Deliberate, repeatable workflows | When you're describing what you want conversationally |
-| Example | `/repo-analysis` | "Can you analyze this codebase for me?" |
+| Feature | Commands | Skills |
+|---------|----------|--------|
+| Where they live | `.claude/commands/<name>.md` | `.claude/skills/<name>/SKILL.md` |
+| How to invoke | Type `/command-name` explicitly | Type `/skill-name`, or Claude detects from natural language |
+| Best for | Deliberate, repeatable workflows | Richer capabilities with supporting files, shared across both assistants |
+| Examples | `/repo-analysis`, `/prd` | `/setup`, `/recall`, `/tune-my-harness` |
 
 **Key insight:** Every command and skill in the starter kit was built by Claude itself through conversation. None were hand-written. You describe what you want, Claude builds the prompt, and then you tell it to save it as a command.
 
@@ -110,7 +135,7 @@ Both are stored as simple markdown (`.md`) files:
 
 This is where things get powerful. The `/repo-analysis` command scans an entire codebase and generates comprehensive documentation.
 
-### Step 5: Examine the Command
+### Step 6: Examine the Command
 
 Before running it, read the command to understand what it does:
 
@@ -122,7 +147,7 @@ Before running it, read the command to understand what it does:
 
 This is just a markdown file with structured instructions. Nothing magical -- just good prompt engineering telling Claude what level of detail to go into.
 
-### Step 6: Run the Analysis on Your Own Project
+### Step 7: Run the Analysis on Your Own Project
 
 1. Open a new Claude Code tab (`Ctrl/Cmd+Shift+P` > "Claude Code: Open in New Tab")
 2. Type `/repo-analysis` and press Tab to autocomplete
@@ -146,7 +171,7 @@ The analysis will correctly identify your project's:
 
 **This is incredibly powerful for onboarding.** Instead of spending days having senior engineers whiteboard the architecture for new team members, you generate fresh documentation that's accurate as of that moment. Every time a new person joins, just regenerate it.
 
-### Step 7: Drill Deeper into a Specific Component
+### Step 8: Drill Deeper into a Specific Component
 
 The initial analysis gives you a high-level view. But you can keep going:
 
@@ -157,7 +182,7 @@ The initial analysis gives you a high-level view. But you can keep going:
 
 3. Claude will re-examine the source code with a focused lens and produce a much more detailed breakdown
 
-### Step 8: Generate Implementation Documents
+### Step 9: Generate Implementation Documents
 
 Once you've explored a component and Claude has identified improvements:
 
@@ -230,7 +255,7 @@ Think of it like a shift change at a hospital -- you're handing off patient note
 
 **Pro tip:** Keep the previous tab open. Sometimes you need to go back and reference what the earlier agent did.
 
-**Advanced practice:** Add instructions to your `CLAUDE.md` telling Claude to automatically read the handoff file at the start of every session and update it every 10-15 minutes. This way, if a session unexpectedly ends or context gets compacted, the handoff notes are already current.
+**Advanced practice:** Add instructions to `AGENTS.md` telling Claude to automatically read the handoff file at the start of every session and update it as work progresses. This way, if a session unexpectedly ends or context gets compacted, the handoff notes are already current. The workbench also ships a `/handover` command that generates the handoff document for you.
 
 ---
 
@@ -238,7 +263,7 @@ Think of it like a shift change at a hospital -- you're handing off patient note
 
 This is how the entire starter kit was built -- and how you'll extend it.
 
-### Step 9: Use the Prompt Builder
+### Step 10: Use the Prompt Builder
 
 1. In a Claude Code tab, type `/prompt` and press Enter
 2. Answer the structured questions:
@@ -254,17 +279,19 @@ This is how the entire starter kit was built -- and how you'll extend it.
 
 **Tip on input quality:** Speaking your prompts (using a voice-to-text tool) tends to produce much more detailed, higher-quality descriptions than typing. When typing, people get lazy and leave out context. When speaking naturally, you explain the *why* behind what you want, which dramatically improves the output.
 
-### Step 10: Test the Prompt
+### Step 11: Test the Prompt
 
 Run the generated prompt and evaluate the results. Iterate if needed -- tell Claude what to adjust.
 
-### Step 11: Convert to a Reusable Command
+### Step 12: Convert to a Reusable Command
 
 Once you have a prompt that works well:
 
-> *"This prompt worked great. Can you save it as a Claude command so I can run it anytime with `/command-name`? Also create it as a skill so it triggers from natural language."*
+> *"This prompt worked great. Can you save it as a Claude command so I can run it anytime with `/command-name`?"*
 
 Claude creates the markdown file in your `.claude/commands/` folder. From now on, you (and anyone who clones the repo) can run it with a simple slash command.
+
+If the capability needs supporting files, or you want it available in Codex too, ask Claude to save it as a **skill** instead (a folder under `.claude/skills/`), then run `./scripts/sync-codex-skills.sh --write` to regenerate the Codex mirror.
 
 **This is the full lifecycle:** Idea -> Prompt Builder -> Test -> Iterate -> Save as Command/Skill
 
@@ -317,12 +344,19 @@ One of the most powerful patterns is making Claude learn from its mistakes:
 1. **When Claude does something wrong** (wrong file location, bad naming convention, incorrect format), don't just fix it manually
 2. **Tell Claude to fix it AND update the rules:**
 
-   > *"You put those files in the wrong location. Please move them to the projects folder, and update the CLAUDE.md so that from now on, all generated files always go into the projects folder."*
+   > *"You put those files in the wrong location. Please move them to the projects folder, and update AGENTS.md so that from now on, all generated files always go into the projects folder."*
 
-3. Claude corrects the current mistake AND writes a permanent rule into `CLAUDE.md`
-4. Every future agent that opens this project reads `CLAUDE.md` and follows the corrected behavior
+3. Claude corrects the current mistake AND writes a permanent rule into `AGENTS.md`
+4. Every future agent that opens this project (Claude Code or Codex) reads `AGENTS.md` and follows the corrected behavior
 
-This creates a **self-correcting, self-documenting system**. Over time, your `CLAUDE.md` accumulates all the rules and preferences that make Claude work exactly the way you want.
+This creates a **self-correcting, self-documenting system**. Over time, your `AGENTS.md` accumulates all the rules and preferences that make your assistants work exactly the way you want.
+
+After any change to `AGENTS.md` or a shared skill, run the harness checks (Claude will usually do this itself):
+
+```bash
+python3 scripts/check-ai-harness-rules.py
+./scripts/sync-codex-skills.sh --check
+```
 
 **Examples of rules people commonly add:**
 - "Never give me time estimates"
@@ -403,13 +437,24 @@ Open a new Claude Code tab, switch to Plan Mode, and ask Claude to research curr
 
 | Concept | What It Means |
 |---------|---------------|
-| **CLAUDE.md** | Persistent instructions Claude reads at the start of every session |
+| **AGENTS.md** | The canonical workspace guide; every rule lives here, and both Claude Code and Codex read it |
+| **CLAUDE.md** | Thin entry point that imports `AGENTS.md` for Claude Code |
 | **Commands** | Explicit slash-invoked workflows (e.g., `/repo-analysis`) |
-| **Skills/Actions** | Natural-language-triggered workflows |
+| **Skills** | Capability packages in `.claude/skills/`, invoked by slash or natural language, mirrored for Codex |
 | **Context window** | Claude's working memory -- monitor the % and hand off before it fills |
 | **Agent handoff** | Structured document for transferring work between Claude sessions |
 | **Plan Mode** | Research and plan without executing code changes |
 | **Current best practices** | Phrase that signals Claude to do live web research |
+
+---
+
+## Keep Exploring the Workbench
+
+This session covers the Claude Code fundamentals. The workbench itself has more to offer once you're comfortable:
+
+- `ONBOARDING.md` -- the first-week path through the kit, one step at a time
+- `guides/model-routing-guide.md` -- the delegation layer: a five-role sub-agent roster with pinned model tiers, so the frontier model manages while cheaper tiers do the mechanical work (`guides/routing-quickstart.md` installs just this layer in other projects)
+- `guides/journaling-guide.md` -- the scheduled journal pipeline: dailies, monthly rollups, and `/recall` for questions like "when did we last meet Dana"
 
 ---
 
