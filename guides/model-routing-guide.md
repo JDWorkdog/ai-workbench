@@ -6,16 +6,16 @@ How to run frontier models (Claude Fable 5, GPT-5.6 Sol) as managers instead of 
 
 Frontier models are priced like senior staff. The waste is not using them; the waste is using them for work that does not need judgment, then having no budget or patience left for the work that does.
 
-Reference prices per million tokens (input/output), 2026-07:
+Relative cost tiers, 2026-07:
 
-| Vendor | Tier | Price | Positioning |
+| Vendor | Tier | Cost | Positioning |
 |---|---|---|---|
 | Anthropic | Haiku | lowest | mechanical work, bulk summarization |
 | Anthropic | Sonnet | middle | scoped implementation, standard review |
 | Anthropic | Fable 5 / Opus | highest | design, judgment, final verification |
-| OpenAI | gpt-5.6-luna | $1 / $6 | mechanical work, high volume, clear success criteria |
-| OpenAI | gpt-5.6-terra | $2.50 / $15 | balanced default, scoped implementation |
-| OpenAI | gpt-5.6-sol | $5 / $30 | complex, open-ended, long-horizon work |
+| OpenAI | gpt-5.6-luna | lowest | mechanical work, high volume, clear success criteria |
+| OpenAI | gpt-5.6-terra | middle | balanced default, scoped implementation |
+| OpenAI | gpt-5.6-sol | highest | complex, open-ended, long-horizon work |
 
 Prices drift; the ratios are the point. A frontier model fetching a PR costs roughly five times what a cheap tier does, for identical output. And the cheapest model is no model: `gh pr view` needs zero tokens of intelligence.
 
