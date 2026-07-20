@@ -59,13 +59,16 @@ The frontier model is the manager, not the typist. A five-role delegation roster
 | Fetch, post, download, status checks (no judgment) | fetcher | haiku | gpt-5.6-luna |
 | Summarize transcripts, threads, logs, rollups | summarizer | haiku | gpt-5.6-luna |
 | Scoped, well-specified change with acceptance criteria | implementer | sonnet | gpt-5.6-terra |
+| Heavyweight implementation (3+ modules, or the spec embeds design judgment) | implementer, `model: opus` override | opus | gpt-5.6-sol |
 | Review of completed work (standard risk) | qa-reviewer | sonnet | gpt-5.6-terra |
+| Review of release-critical or large multi-agent diffs | qa-reviewer, `model: opus` override | opus | gpt-5.6-sol |
 | Design, decomposition, risky diffs, final verification | architect or main session | frontier | gpt-5.6-sol |
 
 Standing rules:
 
 - **Escalation**: anything touching auth, payments, data deletion, or an action that is hard to reverse goes to the frontier tier regardless of size. When unsure which tier, use the frontier one.
 - **No self-certification**: work from a cheaper tier counts as done only after a hard check passes (tests, schema, validator) or a frontier-tier review accepts it.
+- **Adjudication**: qa-reviewer findings carry a confidence label (CONFIRMED or PLAUSIBLE). A PLAUSIBLE finding is a handoff, not a verdict: the frontier tier (main session or architect) re-verifies it against the actual code before any fix lands.
 - **Delegation has overhead**: for a one-shot small task in an already-warm session, doing it inline is often cheaper than spawning a worker. Delegate for bulk, parallelism, context isolation, or a genuinely cheaper tier.
 - The full method, including the cross-vendor QA protocol, lives in `guides/model-routing-guide.md`.
 

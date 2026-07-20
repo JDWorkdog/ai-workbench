@@ -37,7 +37,7 @@ Even without the scheduled pipeline, talking about your day updates the journal 
 
 ## 5. Learn the routing layer
 
-Read [guides/model-routing-guide.md](guides/model-routing-guide.md). The short version: the frontier model is the manager, not the typist. The workspace ships a five-role roster (fetcher, summarizer, implementer, qa-reviewer, architect) with pinned model tiers, and a routing table in `AGENTS.md` that says which work goes where. Two standing rules: escalate anything risky to the frontier tier, and never let a cheap tier certify its own work.
+Read [guides/model-routing-guide.md](guides/model-routing-guide.md). The short version: the frontier model is the manager, not the typist. The workspace ships a five-role roster (fetcher, summarizer, implementer, qa-reviewer, architect) with pinned model tiers, per-task opus overrides for heavyweight implementation and escalated review, and a routing table in `AGENTS.md` that says which work goes where. Three standing rules: escalate anything risky to the frontier tier, never let a cheap tier certify its own work, and have the frontier tier adjudicate any unverified (PLAUSIBLE) review finding before it drives a fix.
 
 Want the same layer in another project, or on a teammate's machine without the whole workbench? See [guides/routing-quickstart.md](guides/routing-quickstart.md): the `tune-my-harness` skill is self-contained (roster definitions and routing blocks ship inside it), so one copied folder plus one run per project installs everything.
 

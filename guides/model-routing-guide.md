@@ -12,7 +12,8 @@ Relative cost tiers, 2026-07:
 |---|---|---|---|
 | Anthropic | Haiku | lowest | mechanical work, bulk summarization |
 | Anthropic | Sonnet | middle | scoped implementation, standard review |
-| Anthropic | Fable 5 / Opus | highest | design, judgment, final verification |
+| Anthropic | Opus | upper | heavyweight implementation, escalated review, fast-mode interactive coding |
+| Anthropic | Fable 5 | highest | design, judgment, final verification, adjudication |
 | OpenAI | gpt-5.6-luna | lowest | mechanical work, high volume, clear success criteria |
 | OpenAI | gpt-5.6-terra | middle | balanced default, scoped implementation |
 | OpenAI | gpt-5.6-sol | highest | complex, open-ended, long-horizon work |
@@ -24,7 +25,7 @@ Prices drift; the ratios are the point. A frontier model fetching a PR costs rou
 1. **The frontier model is the manager, not the typist.** It holds the plan, makes judgment calls, and verifies. Mechanical work (fetching, posting prepared text, formatting, moving files, bulk summarizing) goes to cheap tiers or plain scripts.
 2. **Route by what failure costs, not by what the task is called.** A "PR review" of a risky auth change deserves the frontier model; a "PR review" of a typo fix does not. Same label, different stakes, different tier.
 3. **Pin models at the worker level, decide at the manager level.** Delegated roles carry a pinned model in their definition. The orchestrator carries a short routing table in the instructions file and decides per task. Do not scatter model advice as prose across every skill.
-4. **The cheap model never self-certifies.** Anything a lesser model produces counts as done only after a hard check passes (tests, schema, validator) or the frontier model accepts it. This is the rule that makes cheap delegation safe.
+4. **The cheap model never self-certifies.** Anything a lesser model produces counts as done only after a hard check passes (tests, schema, validator) or the frontier model accepts it. This is the rule that makes cheap delegation safe. The same applies to review: a cheaper reviewer finds, the frontier tier decides.
 5. **Delegation has overhead.** Spawning a worker costs context setup and coordination. For a one-shot small task in a warm session, inline is often cheaper. Delegate for bulk, for parallelism, for context isolation, or when a genuinely cheaper tier suffices.
 6. **Independence beats persona.** A QA agent adds value because it has fresh context and an adversarial goal, not because its prompt says it is a QA engineer. Specialist lenses (DBA, UX, security) work best as parallel review passes over a change, not as a permanent zoo of personas. Retire agents whose descriptions you imported but never use; their descriptions load into every session.
 
@@ -37,9 +38,11 @@ Prices drift; the ratios are the point. A frontier model fetching a PR costs rou
 
 The `description` field is how the orchestrator picks a worker, so write it as a routing rule: what the role is for, and what it must NOT be used for. The installed roster: `fetcher` (haiku), `summarizer` (haiku), `implementer` (sonnet), `qa-reviewer` (sonnet), `architect` (inherit).
 
+**Per-task model overrides** are how the middle-upper tier fits in without growing the roster: the `Agent` call's `model` parameter beats the pinned default for that one task. The routing table names the two standard overrides. Heavyweight implementation (a change spanning 3+ modules or layers, or a spec that embeds design judgment) runs `implementer` on opus, because Sonnet executes a spec faithfully, including the spec's flaws, where Opus is likelier to push back. Release-critical or large multi-agent diffs run `qa-reviewer` on opus. Opus also supports fast mode, which makes it the right tier for live interactive coding sessions where latency matters.
+
 **Slash commands** accept `model:` frontmatter too. Use it to pin an entire recurring task to a tier (a nightly digest that should always run cheap).
 
-**The routing table** lives in `AGENTS.md` under Model Routing. Ten lines the orchestrator consults, plus the escalation rule. Keep it short; it loads every session.
+**The routing table** lives in `AGENTS.md` under Model Routing. A short table the orchestrator consults, plus the standing rules (escalation, no self-certification, adjudication). Keep it short; it loads every session.
 
 **Main-loop hygiene**: run the interactive session on the frontier model, keep always-loaded context small, and let skills carry specialist depth that loads at the point of need.
 
@@ -68,11 +71,15 @@ The routing table's partner rule: every downward delegation has an upward verifi
 ```
 fetcher/summarizer output -> used by implementer or main session (errors are cheap and visible)
 implementer output        -> hard checks (tests, validators) AND qa-reviewer pass
-qa-reviewer findings      -> fixed by implementer; disagreements settled by a test
+qa-reviewer findings      -> labeled CONFIRMED or PLAUSIBLE; PLAUSIBLE findings adjudicated
+                             by the frontier tier before any fix lands
+adjudicated findings      -> fixed by implementer; disagreements settled by a test
 risky diffs (auth, money, data loss) -> frontier review, regardless of who wrote them
 ```
 
 Two habits make this work. First, delegate with acceptance criteria: a task the worker cannot prove done is not specified enough. Second, never let the model that did the work be the only judge of the work.
+
+The adjudication step is not ceremony. A mid-tier reviewer that labels its confidence honestly is genuinely useful: in one large multi-agent session on this workbench, a Sonnet reviewer flagged as PLAUSIBLE a dead code branch that two green test suites had missed (the implementing model had mocked an unreachable path into passing tests). Frontier adjudication confirmed the finding from source before the fix landed. The reviewer's value was the find plus the honest label; the adjudication step is what turned it into a safe decision. The failure mode it prevents runs both ways: discounting a real PLAUSIBLE finding, or "fixing" a mistaken one.
 
 ## Cross-vendor QA (Claude implements, Codex reviews, or the reverse)
 

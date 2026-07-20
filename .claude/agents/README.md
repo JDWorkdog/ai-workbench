@@ -12,7 +12,9 @@ Agents are named sub-agents with their own system prompt, tool allowlist, and (o
 | `qa-reviewer` | sonnet | Fresh-context adversarial review of completed work |
 | `architect` | inherit (frontier) | Design, decomposition, final verification |
 
-The Codex equivalents live in `.codex/agents/*.toml` with tier substitutions (luna, terra, sol). The method behind the roster is in `guides/model-routing-guide.md`; use `/tune-my-harness` to install the same layer in another project.
+Two standard per-task overrides raise a role's tier without adding roles: heavyweight implementation (3+ modules, or a spec that embeds design judgment) runs `implementer` with a `model: opus` override, and release-critical or large multi-agent diffs run `qa-reviewer` with a `model: opus` override. The reviewer labels every finding CONFIRMED or PLAUSIBLE; PLAUSIBLE findings are adjudicated at the frontier tier (main session or `architect`) before fixes land.
+
+The Codex equivalents live in `.codex/agents/*.toml` with tier substitutions (luna, terra, sol; the opus-override cases route to sol). The method behind the roster is in `guides/model-routing-guide.md`; use `/tune-my-harness` to install the same layer in another project.
 
 ## Agent vs Command vs Skill
 

@@ -5,7 +5,7 @@ For teammates and friends who want the model-routing layer in their own projects
 What you get:
 
 - A five-role delegation roster with pinned model tiers: `fetcher` and `summarizer` (cheap), `implementer` and `qa-reviewer` (balanced), `architect` (frontier). Works in Claude Code and Codex.
-- A ten-line routing table and QA policy for your project's instructions file.
+- A short routing table (with per-task opus overrides and the adjudication rule) and QA policy for your project's instructions file.
 - `tune-my-harness`: an installer skill that audits your project, proposes only what is missing, and installs only what you approve. It is self-contained; all the definitions it installs ship inside its `references/` folder.
 
 The idea in one sentence: the frontier model is the manager, not the typist; mechanical work goes to cheap tiers, and no cheap tier certifies its own work. Full method: [model-routing-guide.md](model-routing-guide.md).
