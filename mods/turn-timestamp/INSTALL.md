@@ -24,13 +24,13 @@ Read the file INSTALL.md in full, then follow its section "Agent setup instructi
 Fetch https://raw.githubusercontent.com/JDWorkdog/ai-workbench/main/mods/turn-timestamp/INSTALL.md and follow its section "Agent setup instructions" exactly. Begin by asking me whether I want the mod on for every project or for the current project only.
 ```
 
-The assistant will check your Claude Code version, write the three mod files to a stable folder in your home directory, validate them with the Claude CLI, and (if you choose "every project") add one variable to your user settings with a backup of the file it touched. Nothing is written before you answer the first question.
+The assistant will check your Claude Code version, write the four mod files to a stable folder in your home directory, validate them with the Claude CLI, and (if you choose "every project") add one variable to your user settings with a backup of the file it touched. Nothing is written before you answer the first question.
 
 Requirements: Claude Code 2.1.286 or newer. The mods API is marked early access by Anthropic, so expect it to change between releases.
 
 ## What you get
 
-- A `Completed <date and time>` line under every finished main answer in the terminal and the VS Code extension, plus the same stamp pinned as a status line under the prompt, which every surface draws, including the desktop app's Code tab. A `display` option picks one or both.
+- A `Completed <date and time>` line under every finished main answer in the terminal and the VS Code extension, plus a band directly above the prompt input showing the latest stamp in the terminal and the desktop app's Code tab. Between them, every surface gets a visible stamp. A `display` option narrows it to one channel.
 - Labels that change with how the turn ended: `Completed`, `Interrupted`, `Ended with error`, or `Refused`.
 - One stamp per response. Subagent turns are skipped.
 - Nothing in the transcript is rewritten. The stamp is display only.
@@ -64,10 +64,10 @@ The mods API needs 2.1.286 or newer. If the installed version is older, stop, re
 
 Check, and report in one short message:
 
-- Does `~/.claude/mods/turn-timestamp/` already exist? If so, show the user the first lines of its `hooks/register.ts` and ask whether to overwrite or leave it.
+- Does `~/.claude/mods/turn-timestamp/` already exist? If so, show the user the first lines of its `hooks/register.tsx` (or `register.ts` from an older version) and ask whether to overwrite or leave it. When overwriting an older version, delete `hooks/register.ts` so only `register.tsx` remains.
 - Does `~/.claude/settings.json` exist? If so, does its `env` block already contain `CLAUDE_CODE_PLUGIN_DIRS`? If it does, note the current value; the install appends to it rather than replacing it (see step 6).
 
-### 4. Write the three mod files
+### 4. Write the four mod files
 
 Create the folder and write the files exactly as they appear in the appendix. Do not reformat them. Confirm the folder looks like this when done:
 
@@ -75,9 +75,11 @@ Create the folder and write the files exactly as they appear in the appendix. Do
 ~/.claude/mods/turn-timestamp/
 ├── .claude-plugin/
 │   └── plugin.json
-└── hooks/
-    ├── hooks.json
-    └── register.ts
+├── hooks/
+│   ├── hooks.json
+│   └── register.tsx
+└── types/
+    └── index.d.ts
 ```
 
 ### 5. Validate
@@ -88,7 +90,7 @@ Run:
 claude plugin validate ~/.claude/mods/turn-timestamp
 ```
 
-Expected output includes `hooks: turn.complete`, `calls: $.clock.now, $.env.get, $.ui.log, $.ui.status`, and `Validation passed`. If validation fails, show the user the full output and stop. Do not continue to the settings step with a mod that does not validate.
+Expected output includes `hooks: turn.complete, ui.render{component=AbovePrompt}`, a `state writes: turn-timestamp.last` line, and `Validation passed`. If validation fails, show the user the full output and stop. Do not continue to the settings step with a mod that does not validate.
 
 ### 6. Wire it up (scope "every project" only)
 
@@ -112,7 +114,7 @@ Tell the user, in a few lines:
 - That the stamp appears in new sessions after they restart Claude Code (quit and reopen the terminal session, the desktop app, or reload the VS Code window). Already-open sessions are not affected.
 - For scope "current project only", the exact command to start a session with the mod.
 - How to uninstall: delete `~/.claude/mods/turn-timestamp/` and remove the path from `CLAUDE_CODE_PLUGIN_DIRS` in `~/.claude/settings.json` (or restore the `.bak-turn-timestamp` copy).
-- Two options they can change without editing code, from `/config` in any session or under `pluginConfigs."turn-timestamp".options` in `~/.claude/settings.json`: `display` (`both` by default; `answer` draws the stamp beneath each answer only, `status` pins the latest stamp under the prompt only, `log` adds a dim transcript line for hosts that draw neither) and `timeZone` (an IANA zone such as `America/New_York`; empty uses the machine's zone). The desktop app's Code tab does not draw the beneath-the-answer text, so desktop users rely on the status line, which the default already includes.
+- Two options they can change without editing code, from `/config` in any session or under `pluginConfigs."turn-timestamp".options` in `~/.claude/settings.json`: `display` (`auto` by default, which draws the line beneath each answer where the surface supports it and the band above the prompt where that is supported; `answer`, `band`, `status`, or `log` picks a single channel. `status` pins a plugin status line, which the desktop app folds into a collapsed "Claude Code notice", so it is not in the default) and `timeZone` (an IANA zone such as `America/New_York`; empty uses the machine's zone). Where the stamp shows: terminal gets the answer line and the band, VS Code gets the answer line, the desktop Code tab gets the band.
 
 Do not offer to install anything else. Do not add the mod to any project's instructions file.
 
@@ -125,18 +127,19 @@ Write these verbatim.
 ```json
 {
   "name": "turn-timestamp",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Shows the date and time of every completed answer so you can tell how fresh a tab is.",
   "author": {
     "name": "John Workman"
   },
+  "types": "./types/index.d.ts",
   "userConfig": {
     "display": {
       "type": "string",
       "title": "Where to show the stamp",
-      "description": "answer draws it beneath each answer (terminal and VS Code). status pins the latest stamp under the prompt and updates it every answer (all surfaces, including the desktop Code tab). both does both. log adds a dim transcript line, for hosts that draw neither.",
-      "default": "both",
-      "options": ["both", "answer", "status", "log"]
+      "description": "auto draws a line beneath each answer (terminal, VS Code) and a band above the prompt with the latest stamp (terminal, desktop Code tab). answer, band, status and log each pick one channel; status pins a plugin status line, which the desktop folds into a collapsed notice.",
+      "default": "auto",
+      "options": ["auto", "answer", "band", "status", "log"]
     },
     "timeZone": {
       "type": "string",
@@ -151,13 +154,33 @@ Write these verbatim.
 ### `hooks/hooks.json`
 
 ```json
-{ "modules": ["./register.ts"] }
+{ "modules": ["./register.tsx"] }
 ```
 
-### `hooks/register.ts`
+### `types/index.d.ts`
+
+The state contract. It declares the one value the mod keeps in session state (the latest stamp, which the band reads) so the validator and an editor can type it.
 
 ```ts
+export type TurnStamp = string
+
+declare module 'claude-code' {
+  interface PluginState {
+    'turn-timestamp': { last: TurnStamp | null }
+  }
+}
+```
+
+### `hooks/register.tsx`
+
+```tsx
+import { atom, read, update } from 'claude-code'
 import type { Register } from 'claude-code'
+
+import type { TurnStamp } from '../types'
+
+// The latest stamp, kept in session state so the band survives a hot reload.
+const last = atom<TurnStamp | null>({ plugin: 'turn-timestamp', key: 'last' } as const, null)
 
 // Formats the wall-clock time as "Fri, Oct 2, 2026, 3:42:07 PM EDT".
 // An invalid or empty zone falls back to the sandbox's own zone, then to ISO.
@@ -185,8 +208,10 @@ function stamp(ms: number, timeZone: string | undefined): string {
 }
 
 export const register: Register = (on, options) => {
-  const display = String(options.display ?? 'both')
+  const display = String(options.display ?? 'auto')
   const pinnedZone = String(options.timeZone ?? '').trim()
+  const wants = (channel: string) =>
+    display === channel || (display === 'auto' && (channel === 'answer' || channel === 'band'))
 
   on('turn.complete', async ($, e, next) => {
     const result = await next(e)
@@ -206,19 +231,39 @@ export const register: Register = (on, options) => {
             : 'Refused'
     const line = `${label} ${stamp(now, zone)}`
 
-    // Pinned under the prompt; every surface draws it. Replaced each answer.
-    if (display === 'status' || display === 'both') $.ui.status(line)
+    // The band above the prompt reads this; writing it redraws the band.
+    if (wants('band')) await update($, last, () => line)
 
-    // A dim transcript row, for hosts that draw neither of the above.
-    if (display === 'log') $.ui.log(line)
+    // A plugin status line under the prompt. The desktop shows it as a
+    // collapsed "Claude Code notice", so it is off unless chosen.
+    if (wants('status')) $.ui.status(line)
 
-    // Drawn beneath the answer where the surface supports it.
-    if (display === 'answer' || display === 'both') return { ...result, text: line }
-    return result
+    // A dim transcript row, for hosts that draw none of the above.
+    if (wants('log')) $.ui.log(line)
+
+    // Drawn beneath the answer where the surface supports it (terminal, VS Code).
+    return wants('answer') ? { ...result, text: line } : result
+  })
+
+  // The band directly above the prompt input. Raised on the terminal and the
+  // desktop Code tab; VS Code does not raise it and shows the answer line instead.
+  on('ui.render', { component: 'AbovePrompt' }, async ($, e, next) => {
+    if (!wants('band')) return next(e)
+    const line = await read($, last)
+    if (e.props.hasSurvey || line === null) return next(e)
+
+    const { Box, Text } = $.ui.resolve(e)
+    return (
+      <Box>
+        <Text dimColor>
+          {e.props.isWorking ? `Working. Last answer: ${line}` : `Last answer: ${line}`}
+        </Text>
+      </Box>
+    )
   })
 }
 ```
 
-### How to read `register.ts`
+### How to read `register.tsx`
 
-`register` receives an `on` function and the `options` the manifest's `userConfig` declares, defaults filled in. `on('turn.complete', hook)` adds a hook that runs when a response finishes. Every hook gets `$` (the engine interface), `e` (the event input), and `next` (the rest of the chain). Calling `next(e)` lets the engine finish normally and hands back its result, which for this event is `{ text }`. Returning a different `text` makes the engine show that text beneath the answer. The transcript itself is never changed.
+`register` receives an `on` function and the `options` the manifest's `userConfig` declares, defaults filled in. `on('turn.complete', hook)` adds a hook that runs when a response finishes. Every hook gets `$` (the engine interface), `e` (the event input), and `next` (the rest of the chain). Calling `next(e)` lets the engine finish normally and hands back its result, which for `turn.complete` is `{ text }`; returning a different `text` makes the terminal and VS Code show that text beneath the answer. The second hook draws the band above the prompt: it reads the latest stamp from session state, and the write in the first hook redraws it. The transcript itself is never changed.

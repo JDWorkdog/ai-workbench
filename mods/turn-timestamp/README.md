@@ -6,7 +6,7 @@ A tiny Claude Code mod that prints the local date and time beneath every complet
 Completed Fri, Oct 2, 2026, 5:41:07 AM EDT
 ```
 
-It works in the terminal, the VS Code extension, and the desktop app's Code tab. It is three files and about sixty lines of TypeScript, and Claude Code wrote the first version in one turn when asked.
+It works in the terminal, the VS Code extension, and the desktop app's Code tab. It is four small files and under a hundred lines of TypeScript, and Claude Code wrote the first version in one turn when asked.
 
 ## The problem
 
@@ -16,11 +16,11 @@ If you run Claude Code in several VS Code tabs, or keep a handful of terminal se
 
 Claude Code now supports **mods**: plugins written as function hooks that run inside the session and can draw panes, status lines, toasts, or react to events. One of those events is `turn.complete`, which fires every time a response finishes. A hook on that event can return a short line of text, and the engine shows it beneath the answer.
 
-This mod hooks `turn.complete`, reads the clock, and returns a stamp. It also pins the same stamp as the plugin's status line under the prompt, because the desktop app's Code tab does not draw the beneath-the-answer text while the terminal and VS Code do. The status line is drawn everywhere and is replaced on each answer, so on any surface the newest stamp is always visible.
+This mod hooks `turn.complete`, reads the clock, and returns a stamp. Not every surface draws that returned text: the terminal and VS Code do, the desktop app's Code tab does not. So the mod also draws a band directly above the prompt input with the latest stamp, using the `AbovePrompt` render component, which the terminal and the desktop Code tab support. Between the two channels every surface shows a visible stamp without anything collapsed or hidden.
 
 - Only the main answer gets a stamp. Subagent turns end inside the main turn and are skipped, so you never see a pile of timestamps from one response.
 - The label changes with how the turn ended: `Completed`, `Interrupted`, `Ended with error`, or `Refused`.
-- Two settings, changeable from `/config` without editing code: `display` (`both`, `answer`, `status`, or `log`) and `timeZone`.
+- Two settings, changeable from `/config` without editing code: `display` (`auto`, `answer`, `band`, `status`, or `log`) and `timeZone`.
 - The transcript itself is never rewritten. The stamp is display-only.
 
 ## Install
@@ -72,7 +72,7 @@ Claude writes the mod into a hot-reloading dev folder, asks once whether to enab
 claude plugin validate mods/turn-timestamp
 ```
 
-You should see `hooks: turn.complete` and `calls: $.clock.now, $.env.get` in the output, and `Validation passed`.
+You should see `hooks: turn.complete, ui.render{component=AbovePrompt}` in the output, a `state writes: turn-timestamp.last` line, and `Validation passed`.
 
 ## The code
 
@@ -81,18 +81,19 @@ You should see `hooks: turn.complete` and `calls: $.clock.now, $.env.get` in the
 ```json
 {
   "name": "turn-timestamp",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Shows the date and time of every completed answer so you can tell how fresh a tab is.",
   "author": {
     "name": "John Workman"
   },
+  "types": "./types/index.d.ts",
   "userConfig": {
     "display": {
       "type": "string",
       "title": "Where to show the stamp",
-      "description": "answer draws it beneath each answer (terminal and VS Code). status pins the latest stamp under the prompt and updates it every answer (all surfaces, including the desktop Code tab). both does both. log adds a dim transcript line, for hosts that draw neither.",
-      "default": "both",
-      "options": ["both", "answer", "status", "log"]
+      "description": "auto draws a line beneath each answer (terminal, VS Code) and a band above the prompt with the latest stamp (terminal, desktop Code tab). answer, band, status and log each pick one channel; status pins a plugin status line, which the desktop folds into a collapsed notice.",
+      "default": "auto",
+      "options": ["auto", "answer", "band", "status", "log"]
     },
     "timeZone": {
       "type": "string",
@@ -107,13 +108,31 @@ You should see `hooks: turn.complete` and `calls: $.clock.now, $.env.get` in the
 `hooks/hooks.json`
 
 ```json
-{ "modules": ["./register.ts"] }
+{ "modules": ["./register.tsx"] }
 ```
 
-`hooks/register.ts`
+`types/index.d.ts` (the state contract for the one value the band reads)
 
 ```ts
+export type TurnStamp = string
+
+declare module 'claude-code' {
+  interface PluginState {
+    'turn-timestamp': { last: TurnStamp | null }
+  }
+}
+```
+
+`hooks/register.tsx`
+
+```tsx
+import { atom, read, update } from 'claude-code'
 import type { Register } from 'claude-code'
+
+import type { TurnStamp } from '../types'
+
+// The latest stamp, kept in session state so the band survives a hot reload.
+const last = atom<TurnStamp | null>({ plugin: 'turn-timestamp', key: 'last' } as const, null)
 
 // Formats the wall-clock time as "Fri, Oct 2, 2026, 3:42:07 PM EDT".
 // An invalid or empty zone falls back to the sandbox's own zone, then to ISO.
@@ -141,8 +160,10 @@ function stamp(ms: number, timeZone: string | undefined): string {
 }
 
 export const register: Register = (on, options) => {
-  const display = String(options.display ?? 'both')
+  const display = String(options.display ?? 'auto')
   const pinnedZone = String(options.timeZone ?? '').trim()
+  const wants = (channel: string) =>
+    display === channel || (display === 'auto' && (channel === 'answer' || channel === 'band'))
 
   on('turn.complete', async ($, e, next) => {
     const result = await next(e)
@@ -162,25 +183,45 @@ export const register: Register = (on, options) => {
             : 'Refused'
     const line = `${label} ${stamp(now, zone)}`
 
-    // Pinned under the prompt; every surface draws it. Replaced each answer.
-    if (display === 'status' || display === 'both') $.ui.status(line)
+    // The band above the prompt reads this; writing it redraws the band.
+    if (wants('band')) await update($, last, () => line)
 
-    // A dim transcript row, for hosts that draw neither of the above.
-    if (display === 'log') $.ui.log(line)
+    // A plugin status line under the prompt. The desktop shows it as a
+    // collapsed "Claude Code notice", so it is off unless chosen.
+    if (wants('status')) $.ui.status(line)
 
-    // Drawn beneath the answer where the surface supports it.
-    if (display === 'answer' || display === 'both') return { ...result, text: line }
-    return result
+    // A dim transcript row, for hosts that draw none of the above.
+    if (wants('log')) $.ui.log(line)
+
+    // Drawn beneath the answer where the surface supports it (terminal, VS Code).
+    return wants('answer') ? { ...result, text: line } : result
+  })
+
+  // The band directly above the prompt input. Raised on the terminal and the
+  // desktop Code tab; VS Code does not raise it and shows the answer line instead.
+  on('ui.render', { component: 'AbovePrompt' }, async ($, e, next) => {
+    if (!wants('band')) return next(e)
+    const line = await read($, last)
+    if (e.props.hasSurvey || line === null) return next(e)
+
+    const { Box, Text } = $.ui.resolve(e)
+    return (
+      <Box>
+        <Text dimColor>
+          {e.props.isWorking ? `Working. Last answer: ${line}` : `Last answer: ${line}`}
+        </Text>
+      </Box>
+    )
   })
 }
 ```
 
-How to read it: `register` gets an `on` function and the `options` from the manifest's `userConfig`, defaults filled in. `on('turn.complete', hook)` adds a hook. Every hook receives `$` (the engine interface), `e` (the event input), and `next` (the rest of the chain). Calling `next(e)` lets the engine finish normally and hands back its result, which for this event is `{ text }`. Returning a different `text` makes the engine show that text beneath the answer.
+How to read it: `register` gets an `on` function and the `options` from the manifest's `userConfig`, defaults filled in. `on('turn.complete', hook)` adds a hook. Every hook receives `$` (the engine interface), `e` (the event input), and `next` (the rest of the chain). Calling `next(e)` lets the engine finish normally and hands back its result, which for this event is `{ text }`. Returning a different `text` makes the terminal and VS Code show that text beneath the answer. The `ui.render` hook on `AbovePrompt` draws the band: it reads the latest stamp from session state, and the write in the first hook redraws it.
 
 ## Customize it
 
 - **Pin a time zone.** Set `timeZone` in `/config` (or under `pluginConfigs."turn-timestamp".options` in `~/.claude/settings.json`) to an IANA zone such as `America/New_York`.
-- **Choose where it shows.** Set `display` to `answer` for the beneath-the-answer line only, `status` for the pinned line only, or `log` for a dim transcript row on hosts that draw neither. The default `both` covers the terminal, VS Code, and the desktop Code tab.
+- **Choose where it shows.** Set `display` to `answer` for the beneath-the-answer line only, `band` for the above-prompt band only, `status` for a plugin status line (the desktop folds this into a collapsed notice, which is why it is not in the default), or `log` for a dim transcript row. The default `auto` draws the answer line and the band.
 - **Shorter stamp.** Drop `weekday` and `year` from the format options for something like `Oct 2, 5:41 AM EDT`.
 - **Add the duration.** `e.durationMs` is on the event. Append `Math.round(e.durationMs / 1000)` seconds to the line.
 - **Add token cost.** `e.usage` carries the turn's token counts when the turn had any.
@@ -193,7 +234,7 @@ The interesting part is not the stamp, it is how little it took. The mods API gi
 
 ## Keeping INSTALL.md in sync
 
-The appendix in `INSTALL.md` embeds the three source files verbatim. If you change `register.ts`, `hooks.json`, or `plugin.json`, update the appendix to match, or the one-file installer will hand out an older mod than the folder does.
+The appendix in `INSTALL.md` embeds the three source files verbatim. If you change `register.tsx`, `index.d.ts`, `hooks.json`, or `plugin.json`, update the appendix to match, or the one-file installer will hand out an older mod than the folder does.
 
 ## Credits
 

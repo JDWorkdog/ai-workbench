@@ -1,17 +1,18 @@
 {
   "name": "turn-timestamp",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Shows the date and time of every completed answer so you can tell how fresh a tab is.",
   "author": {
     "name": "John Workman"
   },
+  "types": "./types/index.d.ts",
   "userConfig": {
     "display": {
       "type": "string",
       "title": "Where to show the stamp",
-      "description": "answer draws it beneath each answer (terminal and VS Code). status pins the latest stamp under the prompt and updates it every answer (all surfaces, including the desktop Code tab). both does both. log adds a dim transcript line, for hosts that draw neither.",
-      "default": "both",
-      "options": ["both", "answer", "status", "log"]
+      "description": "auto draws a line beneath each answer (terminal, VS Code) and a band above the prompt with the latest stamp (terminal, desktop Code tab). answer, band, status and log each pick one channel; status pins a plugin status line, which the desktop folds into a collapsed notice.",
+      "default": "auto",
+      "options": ["auto", "answer", "band", "status", "log"]
     },
     "timeZone": {
       "type": "string",
