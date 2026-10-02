@@ -35,7 +35,7 @@ claude --plugin-dir ~/path/to/ai-workbench/mods/turn-timestamp
 
 **Option 2: load it everywhere, including VS Code and the desktop app**
 
-The VS Code extension and desktop app cannot take a command-line flag, so they read plugin folders from the `CLAUDE_CODE_PLUGIN_DIRS` variable in the `env` block of your user settings. Add this to `~/.claude/settings.json` (merge with what is already there):
+The VS Code extension and desktop app cannot take a command-line flag, so they read plugin folders from the `CLAUDE_CODE_PLUGIN_DIRS` variable in the `env` block of your user settings. Because `~/.claude/settings.json` is user-level, one edit here covers every project on your machine and every VS Code tab, which is what you want if the goal is never losing track of a tab again. Add this (merge with what is already there):
 
 ```json
 {
@@ -45,7 +45,7 @@ The VS Code extension and desktop app cannot take a command-line flag, so they r
 }
 ```
 
-Separate several folders with `:` on macOS and Linux, `;` on Windows. Restart Claude Code and every new session will carry the stamp.
+Separate several folders with `:` on macOS and Linux, `;` on Windows. Restart Claude Code and every new session will carry the stamp. This variable is only read from user settings or the process environment, never from a project's `.claude/settings.json`, so there is no per-project version of this option. If you want the stamp in a single project only, use Option 1 when you start that project.
 
 **Option 3: have Claude build it for you**
 
