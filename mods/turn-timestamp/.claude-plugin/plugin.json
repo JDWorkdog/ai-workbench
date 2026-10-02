@@ -1,0 +1,8 @@
+{
+  "name": "turn-timestamp",
+  "version": "0.1.0",
+  "description": "Shows the date and time beneath every completed answer so you can tell how fresh a tab is.",
+  "author": {
+    "name": "John Workman"
+  }
+}
