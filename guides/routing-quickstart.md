@@ -25,7 +25,7 @@ The idea in one sentence: the frontier model is the manager, not the typist; mec
    ```
 
 2. Open any project in Claude Code or Codex and run `/tune-my-harness` (or say "tune my harness").
-3. Approve the numbered proposal. It installs the roster, the routing table, the QA policy, and Codex tier profiles as applicable, backs up anything it touches, and leaves a receipt.
+3. Approve the numbered proposal. It installs the roster, the routing table, the QA policy, and the Codex `[agents]` defaults and tier profile files as applicable, backs up anything it touches, and leaves a receipt.
 
 Repeat step 2 per project; the skill install in step 1 happens once per machine.
 
@@ -52,7 +52,7 @@ Install the tune-my-harness skill on this machine, then run it here:
 Everything lives in the skill's `references/` folder ([browse it here](../.claude/skills/tune-my-harness/references/)):
 
 1. Copy `references/claude-agents/*.md` into `~/.claude/agents/` (all projects) or your project's `.claude/agents/` (that repo only). Never both for the same agent name.
-2. Codex users: copy `references/codex-agents/*.toml` into `~/.codex/agents/`, and append the profiles block from `references/routing-table.md` to `~/.codex/config.toml`.
+2. Codex users: copy `references/codex-agents/*.toml` into `~/.codex/agents/`, add the `[agents]` block from `references/routing-table.md` to `~/.codex/config.toml` only if it has no `[agents]` table yet, and create the three profile files (`~/.codex/luna.config.toml`, `sol.config.toml`, `astra.config.toml`) from the same reference. Remove any legacy `[profiles.*]` tables from `config.toml`; current Codex refuses `--profile` while they remain.
 3. Paste the Model Routing and QA Policy blocks from `references/routing-table.md` into your project's canonical instructions file (`AGENTS.md`, or `CLAUDE.md` if that is your canon), editing the change classes to what your project actually ships.
 
 ## User level or project level?

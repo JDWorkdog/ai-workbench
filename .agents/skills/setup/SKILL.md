@@ -28,7 +28,7 @@ List every path before removing anything, get an explicit yes, and use `git rm` 
 
 - Copy `.claude/settings.local.example.json` to `.claude/settings.local.json` (gitignored) and set `USER_NAME`. Walk through the permission allowlist and prune it to what the user actually wants.
 - If the user has MCP servers to register, copy `.mcp.json.example` to `.mcp.json` (gitignored) and fill in theirs.
-- Codex users: point at `.codex/config.toml` for the tier profiles (`--profile luna|terra|sol`) and note that trust and personal defaults live in `~/.codex/config.toml`, not in the repo.
+- Codex users: point at `.codex/config.toml` for the `[agents]` subagent defaults, and at Appendix B of `guides/model-routing-guide.md` for the per-machine tier profile files (`--profile luna|sol|astra`); trust and personal defaults live in `~/.codex/config.toml`, not in the repo.
 
 ## Step 4: Connector checklist
 

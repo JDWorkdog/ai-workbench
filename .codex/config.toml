@@ -8,17 +8,12 @@ inherit = "core"
 [shell_environment_policy.set]
 WORKSPACE_TYPE = "productivity"
 
-# Model tier profiles for the routing table in AGENTS.md.
-# Usage: codex --profile luna | terra | sol, or codex exec -m <model> for one-shots.
-# Use the exact runtime-exposed model IDs; generic family IDs can be rejected.
-[profiles.luna]
-model = "gpt-5.6-luna"
-model_reasoning_effort = "medium"
-
-[profiles.terra]
-model = "gpt-5.6-terra"
-model_reasoning_effort = "medium"
-
-[profiles.sol]
-model = "gpt-5.6-sol"
-model_reasoning_effort = "high"
+# Subagent defaults for the routing table in AGENTS.md.
+# Whole-session tier profiles (luna, sol, astra) are per machine: see
+# Appendix B of guides/model-routing-guide.md for the ~/.codex/<name>.config.toml files.
+[agents]
+# Ad hoc spawns without a named role land on the balanced tier.
+# The roster files in .codex/agents/ pin the cheap roles to gpt-6-luna explicitly.
+default_subagent_model = "gpt-6.1-sol"
+default_subagent_reasoning_effort = "medium"
+max_concurrent_threads_per_session = 6

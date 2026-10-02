@@ -8,13 +8,13 @@ Agents are named sub-agents with their own system prompt, tool allowlist, and (o
 |---|---|---|
 | `fetcher` | haiku | Mechanical retrieval and delivery, zero judgment |
 | `summarizer` | haiku | Faithful compression of transcripts, threads, logs, rollups |
-| `implementer` | sonnet | Scoped, well-specified changes with acceptance criteria |
-| `qa-reviewer` | sonnet | Fresh-context adversarial review of completed work |
-| `architect` | inherit (frontier) | Design, decomposition, final verification |
+| `implementer` | sonnet, effort medium | Scoped, well-specified changes with acceptance criteria |
+| `qa-reviewer` | sonnet, effort xhigh | Fresh-context adversarial review of completed work |
+| `architect` | fable, effort high | Design, decomposition, final verification |
 
 Two standard per-task overrides raise a role's tier without adding roles: heavyweight implementation (3+ modules, or a spec that embeds design judgment) runs `implementer` with a `model: opus` override, and release-critical or large multi-agent diffs run `qa-reviewer` with a `model: opus` override. The reviewer labels every finding CONFIRMED or PLAUSIBLE; PLAUSIBLE findings are adjudicated at the frontier tier (main session or `architect`) before fixes land.
 
-The Codex equivalents live in `.codex/agents/*.toml` with tier substitutions (luna, terra, sol; the opus-override cases route to sol). The method behind the roster is in `guides/model-routing-guide.md`; use `/tune-my-harness` to install the same layer in another project.
+The Codex equivalents live in `.codex/agents/*.toml` on `gpt-6-luna`, `gpt-6.1-sol`, and `gpt-6-astra` (the opus-override cases route to `gpt-6-astra`). If Fable is not on your plan, set the architect to `model: opus` with `effort: xhigh`; the other fallbacks (older Codex, Astra disabled, Claude on Bedrock, Google Cloud, or Foundry) are in the guide's setup instructions. The method behind the roster is in `guides/model-routing-guide.md`; use `/tune-my-harness` to install the same layer in another project.
 
 ## Agent vs Command vs Skill
 
@@ -37,7 +37,8 @@ With frontmatter:
 name: <agent-name>
 description: When to use this agent (write it as a routing rule)
 tools: Read, Grep, Glob        # optional allowlist
-model: sonnet                  # haiku | sonnet | opus | inherit
+model: sonnet                  # haiku | sonnet | opus | fable | inherit | full ID
+effort: medium                 # optional: low | medium | high | xhigh | max (omit for haiku)
 ---
 
 # System prompt content

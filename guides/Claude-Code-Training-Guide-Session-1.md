@@ -101,7 +101,7 @@ Alongside the root guide, the `.claude/` folder holds the Claude Code machinery:
 | `rules/` | Detailed rules loaded on demand (file naming, project scoping, date verification) |
 | `hooks/` | Shell hooks, like the auto-journal reminder |
 
-There is also a `.codex/` folder (Codex tier profiles and roster) and `.agents/skills/` (a generated mirror of `.claude/skills/` for Codex). Never hand-edit the mirror; `scripts/sync-codex-skills.sh --write` regenerates it. If you only use Claude Code, don't worry about the Codex surface: `/setup` offers to remove it.
+There is also a `.codex/` folder (Codex subagent defaults and roster) and `.agents/skills/` (a generated mirror of `.claude/skills/` for Codex). Never hand-edit the mirror; `scripts/sync-codex-skills.sh --write` regenerates it. If you only use Claude Code, don't worry about the Codex surface: `/setup` offers to remove it.
 
 ### Project-Level vs. Personal-Level Configuration
 

@@ -47,7 +47,7 @@ Output lands in the gitignored `personal/` folder, so your work stays on your ma
 AGENTS.md          Canonical workspace guide (both runtimes read it)
 CLAUDE.md          Thin Claude Code entry point (imports AGENTS.md)
 .claude/           Claude Code config (commands, skills, agents, rules, hooks)
-.codex/            Codex config (tier profiles, delegation roster)
+.codex/            Codex config (subagent defaults, delegation roster)
 .agents/skills/    Codex skill mirror (generated; never hand-edit)
 scripts/           Harness checks and the skill sync script
 personal/          Your work (gitignored except journal/SCHEMA.md)

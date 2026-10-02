@@ -52,23 +52,24 @@ All repo output goes to `personal/projects/<repo-name>/`.
 
 ## Model Routing
 
-The frontier model is the manager, not the typist. A five-role delegation roster with pinned models ships in both runtimes (`.claude/agents/` for Claude Code, `.codex/agents/` plus `--profile luna|terra|sol` for Codex). Route by what failure costs, not by what the task is called, and consult this table before doing expensive work inline:
+The frontier model is the manager, not the typist. A five-role delegation roster with pinned models and effort levels ships in both runtimes (`.claude/agents/` for Claude Code, `.codex/agents/` for Codex; whole-session `codex --profile luna|sol|astra` profiles are per machine, see the guide). Route by what failure costs, not by what the task is called, and consult this table before doing expensive work inline:
 
 | Task class | Route to | Claude tier | Codex tier |
 |---|---|---|---|
-| Fetch, post, download, status checks (no judgment) | fetcher | haiku | gpt-5.6-luna |
-| Summarize transcripts, threads, logs, rollups | summarizer | haiku | gpt-5.6-luna |
-| Scoped, well-specified change with acceptance criteria | implementer | sonnet | gpt-5.6-terra |
-| Heavyweight implementation (3+ modules, or the spec embeds design judgment) | implementer, `model: opus` override | opus | gpt-5.6-sol |
-| Review of completed work (standard risk) | qa-reviewer | sonnet | gpt-5.6-terra |
-| Review of release-critical or large multi-agent diffs | qa-reviewer, `model: opus` override | opus | gpt-5.6-sol |
-| Design, decomposition, risky diffs, final verification | architect or main session | frontier | gpt-5.6-sol |
+| Fetch, post, download, status checks (no judgment) | fetcher | haiku | gpt-6-luna |
+| Summarize transcripts, threads, logs, rollups | summarizer | haiku | gpt-6-luna |
+| Scoped, well-specified change with acceptance criteria | implementer | sonnet | gpt-6.1-sol |
+| Heavyweight implementation (3+ modules, or the spec embeds design judgment) | implementer, `model: opus` override | opus | gpt-6-astra |
+| Review of completed work (standard risk) | qa-reviewer | sonnet | gpt-6.1-sol |
+| Review of release-critical or large multi-agent diffs | qa-reviewer, `model: opus` override | opus | gpt-6-astra |
+| Design, decomposition, risky diffs, final verification | architect or main session | fable (or opus at xhigh) | gpt-6-astra |
 
 Standing rules:
 
 - **Escalation**: anything touching auth, payments, data deletion, or an action that is hard to reverse goes to the frontier tier regardless of size. When unsure which tier, use the frontier one.
 - **No self-certification**: work from a cheaper tier counts as done only after a hard check passes (tests, schema, validator) or a frontier-tier review accepts it.
-- **Adjudication**: qa-reviewer findings carry a confidence label (CONFIRMED or PLAUSIBLE). A PLAUSIBLE finding is a handoff, not a verdict: the frontier tier (main session or architect) re-verifies it against the actual code before any fix lands.
+- **Adjudication**: qa-reviewer findings carry a confidence label (CONFIRMED or PLAUSIBLE). A PLAUSIBLE finding is a handoff, not a verdict: the frontier tier re-verifies it against the actual code before any fix lands.
+- **Effort before tier**: try the same model at lower effort before dropping to a smaller model. Judge cost per completed task, not per request.
 - **Delegation has overhead**: for a one-shot small task in an already-warm session, doing it inline is often cheaper than spawning a worker. Delegate for bulk, parallelism, context isolation, or a genuinely cheaper tier.
 - The full method, including the cross-vendor QA protocol, lives in `guides/model-routing-guide.md`.
 
