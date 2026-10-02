@@ -30,7 +30,7 @@ Requirements: Claude Code 2.1.286 or newer. The mods API is marked early access 
 
 ## What you get
 
-- A `Completed <date and time>` line under every finished main answer, in the terminal, the desktop app, and the VS Code extension.
+- A `Completed <date and time>` line under every finished main answer in the terminal and the VS Code extension, plus the same stamp pinned as a status line under the prompt, which every surface draws, including the desktop app's Code tab. A `display` option picks one or both.
 - Labels that change with how the turn ended: `Completed`, `Interrupted`, `Ended with error`, or `Refused`.
 - One stamp per response. Subagent turns are skipped.
 - Nothing in the transcript is rewritten. The stamp is display only.
@@ -88,7 +88,7 @@ Run:
 claude plugin validate ~/.claude/mods/turn-timestamp
 ```
 
-Expected output includes `hooks: turn.complete`, `calls: $.clock.now, $.env.get`, and `Validation passed`. If validation fails, show the user the full output and stop. Do not continue to the settings step with a mod that does not validate.
+Expected output includes `hooks: turn.complete`, `calls: $.clock.now, $.env.get, $.ui.log, $.ui.status`, and `Validation passed`. If validation fails, show the user the full output and stop. Do not continue to the settings step with a mod that does not validate.
 
 ### 6. Wire it up (scope "every project" only)
 
@@ -112,7 +112,7 @@ Tell the user, in a few lines:
 - That the stamp appears in new sessions after they restart Claude Code (quit and reopen the terminal session, the desktop app, or reload the VS Code window). Already-open sessions are not affected.
 - For scope "current project only", the exact command to start a session with the mod.
 - How to uninstall: delete `~/.claude/mods/turn-timestamp/` and remove the path from `CLAUDE_CODE_PLUGIN_DIRS` in `~/.claude/settings.json` (or restore the `.bak-turn-timestamp` copy).
-- One customization they might want: to pin a time zone, replace `await $.env.get('TZ')` in `register.ts` with a literal such as `'America/New_York'`. Saving the file hot-reloads the hook in any running session that has the folder loaded.
+- Two options they can change without editing code, from `/config` in any session or under `pluginConfigs."turn-timestamp".options` in `~/.claude/settings.json`: `display` (`both` by default; `answer` draws the stamp beneath each answer only, `status` pins the latest stamp under the prompt only, `log` adds a dim transcript line for hosts that draw neither) and `timeZone` (an IANA zone such as `America/New_York`; empty uses the machine's zone). The desktop app's Code tab does not draw the beneath-the-answer text, so desktop users rely on the status line, which the default already includes.
 
 Do not offer to install anything else. Do not add the mod to any project's instructions file.
 
@@ -125,10 +125,25 @@ Write these verbatim.
 ```json
 {
   "name": "turn-timestamp",
-  "version": "0.1.0",
-  "description": "Shows the date and time beneath every completed answer so you can tell how fresh a tab is.",
+  "version": "0.2.0",
+  "description": "Shows the date and time of every completed answer so you can tell how fresh a tab is.",
   "author": {
     "name": "John Workman"
+  },
+  "userConfig": {
+    "display": {
+      "type": "string",
+      "title": "Where to show the stamp",
+      "description": "answer draws it beneath each answer (terminal and VS Code). status pins the latest stamp under the prompt and updates it every answer (all surfaces, including the desktop Code tab). both does both. log adds a dim transcript line, for hosts that draw neither.",
+      "default": "both",
+      "options": ["both", "answer", "status", "log"]
+    },
+    "timeZone": {
+      "type": "string",
+      "title": "Time zone",
+      "description": "An IANA zone such as America/New_York. Empty uses the machine's zone, or TZ when set.",
+      "default": ""
+    }
   }
 }
 ```
@@ -144,29 +159,35 @@ Write these verbatim.
 ```ts
 import type { Register } from 'claude-code'
 
-// Formats the local wall-clock time as "Fri Oct 2, 2026 at 3:42:07 PM (EDT)".
-// Falls back to the TZ env var when the module's sandbox has no local zone.
+// Formats the wall-clock time as "Fri, Oct 2, 2026, 3:42:07 PM EDT".
+// An invalid or empty zone falls back to the sandbox's own zone, then to ISO.
 function stamp(ms: number, timeZone: string | undefined): string {
   const d = new Date(ms)
+  const opts: Intl.DateTimeFormatOptions = {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    second: '2-digit',
+    timeZoneName: 'short',
+  }
   try {
-    const f = new Intl.DateTimeFormat('en-US', {
-      weekday: 'short',
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-      hour: 'numeric',
-      minute: '2-digit',
-      second: '2-digit',
-      timeZoneName: 'short',
-      ...(timeZone ? { timeZone } : {}),
-    })
-    return f.format(d)
+    return new Intl.DateTimeFormat('en-US', timeZone ? { ...opts, timeZone } : opts).format(d)
   } catch {
-    return d.toISOString()
+    try {
+      return new Intl.DateTimeFormat('en-US', opts).format(d)
+    } catch {
+      return d.toISOString()
+    }
   }
 }
 
-export const register: Register = on => {
+export const register: Register = (on, options) => {
+  const display = String(options.display ?? 'both')
+  const pinnedZone = String(options.timeZone ?? '').trim()
+
   on('turn.complete', async ($, e, next) => {
     const result = await next(e)
 
@@ -174,7 +195,7 @@ export const register: Register = on => {
     if (e.agentId !== undefined) return result
 
     const now = await $.clock.now()
-    const tz = await $.env.get('TZ')
+    const zone = pinnedZone || (await $.env.get('TZ')) || undefined
     const label =
       e.reason === 'answer'
         ? 'Completed'
@@ -183,12 +204,21 @@ export const register: Register = on => {
           : e.reason === 'error'
             ? 'Ended with error'
             : 'Refused'
+    const line = `${label} ${stamp(now, zone)}`
 
-    return { ...result, text: `${label} ${stamp(now, tz)}` }
+    // Pinned under the prompt; every surface draws it. Replaced each answer.
+    if (display === 'status' || display === 'both') $.ui.status(line)
+
+    // A dim transcript row, for hosts that draw neither of the above.
+    if (display === 'log') $.ui.log(line)
+
+    // Drawn beneath the answer where the surface supports it.
+    if (display === 'answer' || display === 'both') return { ...result, text: line }
+    return result
   })
 }
 ```
 
 ### How to read `register.ts`
 
-`register` receives an `on` function. `on('turn.complete', hook)` adds a hook that runs when a response finishes. Every hook gets `$` (the engine interface), `e` (the event input), and `next` (the rest of the chain). Calling `next(e)` lets the engine finish normally and hands back its result, which for this event is `{ text }`. Returning a different `text` makes the engine show that text beneath the answer. The transcript itself is never changed.
+`register` receives an `on` function and the `options` the manifest's `userConfig` declares, defaults filled in. `on('turn.complete', hook)` adds a hook that runs when a response finishes. Every hook gets `$` (the engine interface), `e` (the event input), and `next` (the rest of the chain). Calling `next(e)` lets the engine finish normally and hands back its result, which for this event is `{ text }`. Returning a different `text` makes the engine show that text beneath the answer. The transcript itself is never changed.

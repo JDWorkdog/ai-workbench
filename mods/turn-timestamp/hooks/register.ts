@@ -1,28 +1,34 @@
 import type { Register } from 'claude-code'
 
-// Formats the local wall-clock time as "Fri Oct 2, 2026 at 3:42:07 PM (EDT)".
-// Falls back to the TZ env var when the module's sandbox has no local zone.
+// Formats the wall-clock time as "Fri, Oct 2, 2026, 3:42:07 PM EDT".
+// An invalid or empty zone falls back to the sandbox's own zone, then to ISO.
 function stamp(ms: number, timeZone: string | undefined): string {
   const d = new Date(ms)
+  const opts: Intl.DateTimeFormatOptions = {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    second: '2-digit',
+    timeZoneName: 'short',
+  }
   try {
-    const f = new Intl.DateTimeFormat('en-US', {
-      weekday: 'short',
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-      hour: 'numeric',
-      minute: '2-digit',
-      second: '2-digit',
-      timeZoneName: 'short',
-      ...(timeZone ? { timeZone } : {}),
-    })
-    return f.format(d)
+    return new Intl.DateTimeFormat('en-US', timeZone ? { ...opts, timeZone } : opts).format(d)
   } catch {
-    return d.toISOString()
+    try {
+      return new Intl.DateTimeFormat('en-US', opts).format(d)
+    } catch {
+      return d.toISOString()
+    }
   }
 }
 
-export const register: Register = on => {
+export const register: Register = (on, options) => {
+  const display = String(options.display ?? 'both')
+  const pinnedZone = String(options.timeZone ?? '').trim()
+
   on('turn.complete', async ($, e, next) => {
     const result = await next(e)
 
@@ -30,7 +36,7 @@ export const register: Register = on => {
     if (e.agentId !== undefined) return result
 
     const now = await $.clock.now()
-    const tz = await $.env.get('TZ')
+    const zone = pinnedZone || (await $.env.get('TZ')) || undefined
     const label =
       e.reason === 'answer'
         ? 'Completed'
@@ -39,7 +45,16 @@ export const register: Register = on => {
           : e.reason === 'error'
             ? 'Ended with error'
             : 'Refused'
+    const line = `${label} ${stamp(now, zone)}`
 
-    return { ...result, text: `${label} ${stamp(now, tz)}` }
+    // Pinned under the prompt; every surface draws it. Replaced each answer.
+    if (display === 'status' || display === 'both') $.ui.status(line)
+
+    // A dim transcript row, for hosts that draw neither of the above.
+    if (display === 'log') $.ui.log(line)
+
+    // Drawn beneath the answer where the surface supports it.
+    if (display === 'answer' || display === 'both') return { ...result, text: line }
+    return result
   })
 }

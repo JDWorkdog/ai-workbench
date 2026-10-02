@@ -1,8 +1,23 @@
 {
   "name": "turn-timestamp",
-  "version": "0.1.0",
-  "description": "Shows the date and time beneath every completed answer so you can tell how fresh a tab is.",
+  "version": "0.2.0",
+  "description": "Shows the date and time of every completed answer so you can tell how fresh a tab is.",
   "author": {
     "name": "John Workman"
+  },
+  "userConfig": {
+    "display": {
+      "type": "string",
+      "title": "Where to show the stamp",
+      "description": "answer draws it beneath each answer (terminal and VS Code). status pins the latest stamp under the prompt and updates it every answer (all surfaces, including the desktop Code tab). both does both. log adds a dim transcript line, for hosts that draw neither.",
+      "default": "both",
+      "options": ["both", "answer", "status", "log"]
+    },
+    "timeZone": {
+      "type": "string",
+      "title": "Time zone",
+      "description": "An IANA zone such as America/New_York. Empty uses the machine's zone, or TZ when set.",
+      "default": ""
+    }
   }
 }

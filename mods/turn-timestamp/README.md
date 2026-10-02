@@ -6,7 +6,7 @@ A tiny Claude Code mod that prints the local date and time beneath every complet
 Completed Fri, Oct 2, 2026, 5:41:07 AM EDT
 ```
 
-It works in the terminal, the desktop app, and the VS Code extension. It is three files and about forty lines of TypeScript, and Claude Code wrote it in one turn when asked.
+It works in the terminal, the VS Code extension, and the desktop app's Code tab. It is three files and about sixty lines of TypeScript, and Claude Code wrote the first version in one turn when asked.
 
 ## The problem
 
@@ -16,10 +16,11 @@ If you run Claude Code in several VS Code tabs, or keep a handful of terminal se
 
 Claude Code now supports **mods**: plugins written as function hooks that run inside the session and can draw panes, status lines, toasts, or react to events. One of those events is `turn.complete`, which fires every time a response finishes. A hook on that event can return a short line of text, and the engine shows it beneath the answer.
 
-This mod hooks `turn.complete`, reads the clock, and returns a stamp. That is the whole thing.
+This mod hooks `turn.complete`, reads the clock, and returns a stamp. It also pins the same stamp as the plugin's status line under the prompt, because the desktop app's Code tab does not draw the beneath-the-answer text while the terminal and VS Code do. The status line is drawn everywhere and is replaced on each answer, so on any surface the newest stamp is always visible.
 
 - Only the main answer gets a stamp. Subagent turns end inside the main turn and are skipped, so you never see a pile of timestamps from one response.
 - The label changes with how the turn ended: `Completed`, `Interrupted`, `Ended with error`, or `Refused`.
+- Two settings, changeable from `/config` without editing code: `display` (`both`, `answer`, `status`, or `log`) and `timeZone`.
 - The transcript itself is never rewritten. The stamp is display-only.
 
 ## Install
@@ -80,8 +81,26 @@ You should see `hooks: turn.complete` and `calls: $.clock.now, $.env.get` in the
 ```json
 {
   "name": "turn-timestamp",
-  "version": "0.1.0",
-  "description": "Shows the date and time beneath every completed answer so you can tell how fresh a tab is."
+  "version": "0.2.0",
+  "description": "Shows the date and time of every completed answer so you can tell how fresh a tab is.",
+  "author": {
+    "name": "John Workman"
+  },
+  "userConfig": {
+    "display": {
+      "type": "string",
+      "title": "Where to show the stamp",
+      "description": "answer draws it beneath each answer (terminal and VS Code). status pins the latest stamp under the prompt and updates it every answer (all surfaces, including the desktop Code tab). both does both. log adds a dim transcript line, for hosts that draw neither.",
+      "default": "both",
+      "options": ["both", "answer", "status", "log"]
+    },
+    "timeZone": {
+      "type": "string",
+      "title": "Time zone",
+      "description": "An IANA zone such as America/New_York. Empty uses the machine's zone, or TZ when set.",
+      "default": ""
+    }
+  }
 }
 ```
 
@@ -96,43 +115,72 @@ You should see `hooks: turn.complete` and `calls: $.clock.now, $.env.get` in the
 ```ts
 import type { Register } from 'claude-code'
 
+// Formats the wall-clock time as "Fri, Oct 2, 2026, 3:42:07 PM EDT".
+// An invalid or empty zone falls back to the sandbox's own zone, then to ISO.
 function stamp(ms: number, timeZone: string | undefined): string {
   const d = new Date(ms)
+  const opts: Intl.DateTimeFormatOptions = {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    second: '2-digit',
+    timeZoneName: 'short',
+  }
   try {
-    const f = new Intl.DateTimeFormat('en-US', {
-      weekday: 'short', month: 'short', day: 'numeric', year: 'numeric',
-      hour: 'numeric', minute: '2-digit', second: '2-digit', timeZoneName: 'short',
-      ...(timeZone ? { timeZone } : {}),
-    })
-    return f.format(d)
+    return new Intl.DateTimeFormat('en-US', timeZone ? { ...opts, timeZone } : opts).format(d)
   } catch {
-    return d.toISOString()
+    try {
+      return new Intl.DateTimeFormat('en-US', opts).format(d)
+    } catch {
+      return d.toISOString()
+    }
   }
 }
 
-export const register: Register = on => {
+export const register: Register = (on, options) => {
+  const display = String(options.display ?? 'both')
+  const pinnedZone = String(options.timeZone ?? '').trim()
+
   on('turn.complete', async ($, e, next) => {
     const result = await next(e)
-    if (e.agentId !== undefined) return result   // subagent turn: leave it alone
+
+    // Subagent turns end inside the main turn; only stamp the main answer.
+    if (e.agentId !== undefined) return result
 
     const now = await $.clock.now()
-    const tz = await $.env.get('TZ')
+    const zone = pinnedZone || (await $.env.get('TZ')) || undefined
     const label =
-      e.reason === 'answer' ? 'Completed'
-      : e.reason === 'aborted' ? 'Interrupted'
-      : e.reason === 'error' ? 'Ended with error'
-      : 'Refused'
+      e.reason === 'answer'
+        ? 'Completed'
+        : e.reason === 'aborted'
+          ? 'Interrupted'
+          : e.reason === 'error'
+            ? 'Ended with error'
+            : 'Refused'
+    const line = `${label} ${stamp(now, zone)}`
 
-    return { ...result, text: `${label} ${stamp(now, tz)}` }
+    // Pinned under the prompt; every surface draws it. Replaced each answer.
+    if (display === 'status' || display === 'both') $.ui.status(line)
+
+    // A dim transcript row, for hosts that draw neither of the above.
+    if (display === 'log') $.ui.log(line)
+
+    // Drawn beneath the answer where the surface supports it.
+    if (display === 'answer' || display === 'both') return { ...result, text: line }
+    return result
   })
 }
 ```
 
-How to read it: `register` gets an `on` function. `on('turn.complete', hook)` adds a hook. Every hook receives `$` (the engine interface), `e` (the event input), and `next` (the rest of the chain). Calling `next(e)` lets the engine finish normally and hands back its result, which for this event is `{ text }`. Returning a different `text` makes the engine show that text beneath the answer.
+How to read it: `register` gets an `on` function and the `options` from the manifest's `userConfig`, defaults filled in. `on('turn.complete', hook)` adds a hook. Every hook receives `$` (the engine interface), `e` (the event input), and `next` (the rest of the chain). Calling `next(e)` lets the engine finish normally and hands back its result, which for this event is `{ text }`. Returning a different `text` makes the engine show that text beneath the answer.
 
 ## Customize it
 
-- **Pin a time zone.** Replace `await $.env.get('TZ')` with a literal such as `'America/New_York'`.
+- **Pin a time zone.** Set `timeZone` in `/config` (or under `pluginConfigs."turn-timestamp".options` in `~/.claude/settings.json`) to an IANA zone such as `America/New_York`.
+- **Choose where it shows.** Set `display` to `answer` for the beneath-the-answer line only, `status` for the pinned line only, or `log` for a dim transcript row on hosts that draw neither. The default `both` covers the terminal, VS Code, and the desktop Code tab.
 - **Shorter stamp.** Drop `weekday` and `year` from the format options for something like `Oct 2, 5:41 AM EDT`.
 - **Add the duration.** `e.durationMs` is on the event. Append `Math.round(e.durationMs / 1000)` seconds to the line.
 - **Add token cost.** `e.usage` carries the turn's token counts when the turn had any.
