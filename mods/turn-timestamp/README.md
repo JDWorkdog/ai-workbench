@@ -26,6 +26,16 @@ This mod hooks `turn.complete`, reads the clock, and returns a stamp. That is th
 
 You need Claude Code 2.1.286 or newer. The mods API is marked early access by Anthropic, so expect it to change.
 
+**Fastest: one file, no clone**
+
+[`INSTALL.md`](INSTALL.md) is a self-contained installer. It carries the three mod files in an appendix plus step-by-step instructions for your assistant: version check, inventory, write, validate, and (if you want it everywhere) one user-level settings edit with a backup. Open Claude Code anywhere and paste:
+
+```
+Fetch https://raw.githubusercontent.com/JDWorkdog/ai-workbench/main/mods/turn-timestamp/INSTALL.md and follow its section "Agent setup instructions" exactly. Begin by asking me whether I want the mod on for every project or for the current project only.
+```
+
+Or save the file locally and paste `Read the file INSTALL.md in full, then follow its section "Agent setup instructions" exactly.` The options below are the manual equivalents.
+
 **Option 1: try it in one terminal session**
 
 ```bash
@@ -132,6 +142,10 @@ Saving the file while a session is running hot-reloads the hook, so you can twea
 ## Why this matters beyond timestamps
 
 The interesting part is not the stamp, it is how little it took. The mods API gives you typed events for prompts, tool calls, model steps, turn boundaries, and UI rendering, with a hot-reload loop built into the session. Anything you have wanted Claude Code to do automatically at a turn boundary is now a hook away, and Claude can write the hook for you.
+
+## Keeping INSTALL.md in sync
+
+The appendix in `INSTALL.md` embeds the three source files verbatim. If you change `register.ts`, `hooks.json`, or `plugin.json`, update the appendix to match, or the one-file installer will hand out an older mod than the folder does.
 
 ## Credits
 
